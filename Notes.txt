@@ -18,3 +18,5 @@ Udemy MicroServices Course
 => Microservice de IIS ile ayaða kaldýrmýyoruz, Kestrel ile ayaða kaldýracaðýz. Birden çok service olduðu için kestrel seçilmelidir.
 
 => Catalog.API tarafýnda MongoDB kullanmak için "MongoDB.Driver" yükledik.
+
+=> Shared Class Library oluþturduk. Response olarak tüm microservice lerde kullanýlacak olan modellerimizi ekledik. [ResponseDto<T>] [NoContent]
