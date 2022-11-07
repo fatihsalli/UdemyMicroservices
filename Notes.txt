@@ -1,0 +1,18 @@
+Udemy MicroServices Course
+
+=> launchSettings.json aþaðýdaki düzenlemeleri yaptýk.
+
+    "FreeCourse.Services.Catalog": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+        ==> "launchBrowser": false a set ettik neden? Uygulama ayaða kalktýðýnda tarayýcýda açýlmamasý için bu düzenlemeyi yaptýk.
+      "launchBrowser": false,
+      "launchUrl": "swagger",
+        ==> "applicationUrl": "http://localhost:5011" => CatalogApi için bu porta set ettik.
+      "applicationUrl": "http://localhost:5011",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+
+=> Microservice de IIS ile ayaða kaldýrmýyoruz, Kestrel ile ayaða kaldýracaðýz.
