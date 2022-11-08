@@ -22,3 +22,5 @@ Udemy MicroServices Course
 => Shared Class Library oluþturduk. Response olarak tüm microservice lerde kullanýlacak olan modellerimizi ekledik. [ResponseDto<T>] [NoContent]
 
 => Dto nesneleri oluþturduk. Course Create-Update için Dto oluþturduk. Diðerleri için de oluþturmamýz gerekir. Kurs öðrenme amaçlý olduðu için tekrarlamamak adýna sadece course için oluþturuldu.
+
+=> Catalog.API Automapper library ekledik.
