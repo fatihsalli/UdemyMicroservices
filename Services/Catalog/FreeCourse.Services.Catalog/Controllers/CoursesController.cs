@@ -1,9 +1,7 @@
 ﻿using FreeCourse.Services.Catalog.Dtos;
 using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Shared.ControllerBases;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson.Serialization.Conventions;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Controllers
