@@ -1,5 +1,8 @@
 Udemy MicroServices Course
 
+
+-------------------------------------------------------------------------------------------------------------
+=> CATALOG.API
 => launchSettings.json aþaðýdaki düzenlemeleri yaptýk.
 
     "FreeCourse.Services.Catalog": {
@@ -52,7 +55,7 @@ Udemy MicroServices Course
     => "docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest" sonrasýnda bu komutu yazýyoruz.  
     => sonrasýnda "docker images" komutu ile oluþturduðumuz container'ý görebiliriz.
     => https://localhost:9443/ tarayýcýmýza yazarak gidiyoruz. Dikkat 9443 üstte yazdýðýmýz için deðiþiyor bu önceden 9000 miþ.
-        =>Portainer þifre=> "Yzl123456789--"
+    
 
 => MongoDB'i container olarak ayaða kaldýrma
     => Portainer.io sitesi üzerinden Add Templates ile Mongoyu seçip çift týklýyoruz.
@@ -72,4 +75,27 @@ Udemy MicroServices Course
   },
   "ConnectionString": "mongodb://localhost:27017" //Dockerize aþamasýnda bunu ezeceðiz."localhost" kýsmýna docker compose dosyasýndaki servisin ismi gelecek.
 
-=> Bir hata aldým Route u belirtsek bile [HttpGet] eklememiz gerekiyor. Yoksa Swagger doðru yüklenmiyor.
+=> Bir hata aldým Route u belirtsek bile default olarak get olsa dahi [HttpGet] eklememiz gerekiyor. Yoksa Swagger doðru yüklenmiyor.
+
+-------------------------------------------------------------------------------------------------------------
+
+=> IDENTITYSERVER.API
+
+=> IdentityServer küpüthanesini yüklüyoruz. Sýrasýyla;
+    - https://github.com/IdentityServer/IdentityServer4.Templates adresine gidip
+    - Install with: "dotnet new -i identityserver4.templates" bu kodu powershellde yazarak paketi yüklüyoruz.
+    - Dosyamýzda "IdentityServer" adýnda bir klasör oluþturduk. Dosya yolunu alýp powershellde cd "path" olarak gidiyoruz.
+    - https://github.com/IdentityServer/IdentityServer4.Templates adresinden "dotnet new is4aspid" templete'ini seçtik. 
+    - Powershell içerisine "dotnet new is4aspid --name FreeCourse.IdentityServer" yazýyoruz. Devamýnda seed no dedik biz kendimiz migration yapacaðýz data göndermesin.
+    - Ýþlem bittiðinde klasör içine dosyalar oluþacak. 
+    - Proje solutionýmýza gelerek klasör oluþturuyoruz."IdentityServer" olarak. Sað týk ile existing project diyerek var olan projeyi ekliyoruz.
+
+
+
+
+
+
+    
+
+            
+

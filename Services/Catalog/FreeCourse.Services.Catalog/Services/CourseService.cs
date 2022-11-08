@@ -55,7 +55,7 @@ namespace FreeCourse.Services.Catalog.Services
 
             if (course == null)
             {
-                return Response<CourseDto>.Fail($"Course ({course.Id}) not found!", 404);
+                return Response<CourseDto>.Fail($"Course ({id}) not found!", 404);
             }
 
             course.Category = await _categoryCollection.Find(x => x.Id == course.CategoryId).SingleOrDefaultAsync();

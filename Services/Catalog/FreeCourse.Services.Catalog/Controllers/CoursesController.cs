@@ -32,8 +32,8 @@ namespace FreeCourse.Services.Catalog.Controllers
         }
 
         //2 tane id ile aldığımız için Route'u direkt olarak verdik.
-        [Route("/api/[controller]/GetAllByUserId/{userId}")]
         [HttpGet]
+        [Route("/api/[controller]/GetAllByUserId/{userId}")]
         public async Task<IActionResult> GetAllByUserId(string userId)
         {
             var response = await _courseService.GetAllByUserIdAsync(userId);
