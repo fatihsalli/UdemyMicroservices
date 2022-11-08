@@ -24,3 +24,15 @@ Udemy MicroServices Course
 => Dto nesneleri oluþturduk. Course Create-Update için Dto oluþturduk. Diðerleri için de oluþturmamýz gerekir. Kurs öðrenme amaçlý olduðu için tekrarlamamak adýna sadece course için oluþturuldu.
 
 => Catalog.API Automapper library ekledik.
+
+=> Dockerize aþamasýnda localhost olarak bir tabire gerek yoktur. Uygulama Docker ile ayaða kalktýðýnda sanki canlýya almýþ gibi düþünebiliriz.
+
+=> Options pattern nedir? Appsettings üzerinden aþaðýdaki gibi bir düzenleme yaptýk. Startup tarafýnda Configuration üzerinden appsettings ayarlarýna ulaþabiliriz. Ancak bunu yapmak yerine bu özellikleri bir class'a aktararak istediðimiz yerde kullanabiliriz. Buna options pattern denir.
+    "DatabaseSettings": {
+    "CourseCollectionName": "Courses",
+    "CategoryCollectionName": "Categories",
+    "ConnectionString": "mongodb://localhost:27017"
+    "DatabaseName": "CatalogDb"
+     },
+
+=> 

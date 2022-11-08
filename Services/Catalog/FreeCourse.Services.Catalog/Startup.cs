@@ -1,3 +1,4 @@
+using FreeCourse.Services.Catalog.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,14 @@ namespace FreeCourse.Services.Catalog
             //Automapper ekledik. Aþaðýda belirtilen teknik ile þunu söylemek istiyoruz Startup'ýn yer aldýðý Assembly'de IProfileExpression ya da IProfileConfiguration'dan miras alan classlarý maplemeye dahil ediyor.
             services.AddAutoMapper(typeof(Startup));
 
+            //appsettings'i okuyarak "DatabaseSettings" classýndaki propertyleri set ediyoruz.
+            //Öncelikle appsettings deki datalarýmýzý "DatabaseSettings" e baðlamak için. Bunu yazdýktan sonra herhangi bir classýn constructorýnda IOptions<DatabaseSettings> options diyerek bu deðerleri okuyabiliriz. Biz bunun yerine direkt olarak bir interface üzerinden almak için iki aþaðýdaki kodu yazdýk.
+            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+            //==> Interface üzerinden almak için aþaðýdaki kodu yazdýk. Aþaðýdaki kodda IOptions ile DatabaseSettingsi tanýmladýk. Herhangi bir classýn contructorýnda IDatabaseSettings'i çaðýrdýðýmda bana DatabaseSettings appsettingsdeki ayarlar ile doldurulmuþ þekilde gelecektir.
+            services.AddSingleton<IDatabaseSettings>(sp =>
+            {
+                return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
