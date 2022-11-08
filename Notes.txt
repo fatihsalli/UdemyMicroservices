@@ -37,10 +37,39 @@ Udemy MicroServices Course
 
 => MongoDB ile haberleþmek için MongoDB.Driver kullanýyoruz.
 
+=> Course ve Catalog için servislerimizi oluþturduk. Ctor da MongoDB.Driver ile database i tanýmladýk. Bu önemli bir konuydu.
+
 => Catalog.API tarafýnda response koda göre dönebilmek için Shared klasörü içinde CustomBaseController oluþturduk. Bu Controller ýn ControllerBase'den miras alabilmesi için => sað týk - Edit Project File diyip frameworkü kendimiz manuel olarak ekledik.
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App">
     </FrameworkReference>
   </ItemGroup>
 
-=> 
+=> Course ve Catalog için controllerlarýmýzý oluþturduk. NLayer dersindeki gibi farklý bir durum deðil.
+
+=> Portainer => Bilgisayarýmýzdaki imagelarýmýzý veya containerlarýmýzý yönetmemizi için bir arayüz saðlamaktadýr. Komut satýrýna gerek olmadan güzel bir arayüz saðlamaktadýr containerlarý yönetmek için. Docker yardýmýyla container olarak ayaða kaldýracaðýz.
+    => https://docs.portainer.io/start/install/server/docker/linux sitesine girip Powershell de "docker volume create portainer_data" yazarak volume oluþturuyoruz.
+    => "docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest" sonrasýnda bu komutu yazýyoruz.  
+    => sonrasýnda "docker images" komutu ile oluþturduðumuz container'ý görebiliriz.
+    => https://localhost:9443/ tarayýcýmýza yazarak gidiyoruz. Dikkat 9443 üstte yazdýðýmýz için deðiþiyor bu önceden 9000 miþ.
+        =>Portainer þifre=> "Yzl123456789--"
+
+=> MongoDB'i container olarak ayaða kaldýrma
+    => Portainer.io sitesi üzerinden Add Templates ile Mongoyu seçip çift týklýyoruz.
+    => Ýsmini girip "Advanced options" ý açarak Port mapping-host kýsmýna containerdaki deðeri yapýþtýrýyoruz. Mapleme yaptýk.
+    => sonrasýnda oluþturuyoruz.
+    => sonrasýnda daha önce yüklediðimiz MongoDb Compass i açýyoruz.
+    => "ConnectionString": "mongodb://localhost:27017" appsettings içerisindeki "mongodb://localhost:27017" portunu MongoDb Compass'e yazýyoruz.
+
+
+
+=> appsettings.json database baðlantýlarý için aþaðýdaki düzenlemeleri tanýmladýk.
+  "DatabaseSettings": {
+    "CourseCollectionName": "Courses",
+    "CategoryCollectionName": "Categories",
+    "ConnectionString": "mongodb://localhost:27017"
+    "DatabaseName": "CatalogDb"
+  },
+  "ConnectionString": "mongodb://localhost:27017" //Dockerize aþamasýnda bunu ezeceðiz."localhost" kýsmýna docker compose dosyasýndaki servisin ismi gelecek.
+
+=> Bir hata aldým Route u belirtsek bile [HttpGet] eklememiz gerekiyor. Yoksa Swagger doðru yüklenmiyor.
