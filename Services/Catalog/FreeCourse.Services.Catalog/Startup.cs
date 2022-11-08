@@ -30,7 +30,6 @@ namespace FreeCourse.Services.Catalog
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseService, CourseService>();
 
-
             //Automapper ekledik. Aþaðýda belirtilen teknik ile þunu söylemek istiyoruz Startup'ýn yer aldýðý Assembly'de IProfileExpression ya da IProfileConfiguration'dan miras alan classlarý maplemeye dahil ediyor.
             services.AddAutoMapper(typeof(Startup));
 

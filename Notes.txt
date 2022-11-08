@@ -36,3 +36,11 @@ Udemy MicroServices Course
      },
 
 => MongoDB ile haberleþmek için MongoDB.Driver kullanýyoruz.
+
+=> Catalog.API tarafýnda response koda göre dönebilmek için Shared klasörü içinde CustomBaseController oluþturduk. Bu Controller ýn ControllerBase'den miras alabilmesi için => sað týk - Edit Project File diyip frameworkü kendimiz manuel olarak ekledik.
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App">
+    </FrameworkReference>
+  </ItemGroup>
+
+=> 
