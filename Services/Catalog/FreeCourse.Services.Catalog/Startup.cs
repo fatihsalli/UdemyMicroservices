@@ -1,3 +1,4 @@
+using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Services.Catalog.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,10 +24,11 @@ namespace FreeCourse.Services.Catalog
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //ICategoryService-CategoryService
+            services.AddScoped<ICategoryService, CategoryService>();
+
             //Automapper ekledik. Aþaðýda belirtilen teknik ile þunu söylemek istiyoruz Startup'ýn yer aldýðý Assembly'de IProfileExpression ya da IProfileConfiguration'dan miras alan classlarý maplemeye dahil ediyor.
             services.AddAutoMapper(typeof(Startup));
 
@@ -39,6 +41,8 @@ namespace FreeCourse.Services.Catalog
                 return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
             });
 
+
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -46,7 +50,6 @@ namespace FreeCourse.Services.Catalog
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

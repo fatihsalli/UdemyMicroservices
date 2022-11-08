@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Shared.Dtos
 {
-    public class ResponseDto<T>
+    public class Response<T>
     {
         //Client'a response olarak tek bir model dönüyoruz. Successdto ve Errordto olarak ikiye ayırmadık. Tek model dönüyoruz.
 
@@ -24,24 +24,24 @@ namespace FreeCourse.Shared.Dtos
         public List<string> Errors { get; set; }
 
         //Static factory metotlar ile nesne türetiyoruz.
-        public static ResponseDto<T> Success(T data, int statusCode)
+        public static Response<T> Success(T data, int statusCode)
         {
-            return new ResponseDto<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
+            return new Response<T> { Data = data, StatusCode = statusCode, IsSuccessful = true };
         }
         //Başarılı ama data dönmeyen metotumuz. Update,delete gibi.
-        public static ResponseDto<T> Success(int statusCode)
+        public static Response<T> Success(int statusCode)
         {
-            return new ResponseDto<T> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
+            return new Response<T> { Data = default(T), StatusCode = statusCode, IsSuccessful = true };
         }
         //Fail olma durumunda birden çok hata gelmesi halinde
-        public static ResponseDto<T> Fail(List<string> errors, int statusCode)
+        public static Response<T> Fail(List<string> errors, int statusCode)
         {
-            return new ResponseDto<T> { Errors = errors, StatusCode = statusCode, IsSuccessful = false };
+            return new Response<T> { Errors = errors, StatusCode = statusCode, IsSuccessful = false };
         }
         //Fail olma durumunda bir hata gelmesi halinde
-        public static ResponseDto<T> Fail(string error, int statusCode)
+        public static Response<T> Fail(string error, int statusCode)
         {
-            return new ResponseDto<T> { Errors = new List<string>() { error }, StatusCode = statusCode, IsSuccessful = false };
+            return new Response<T> { Errors = new List<string>() { error }, StatusCode = statusCode, IsSuccessful = false };
         }
 
     }
