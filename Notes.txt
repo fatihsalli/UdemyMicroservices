@@ -35,4 +35,4 @@ Udemy MicroServices Course
     "DatabaseName": "CatalogDb"
      },
 
-=> 
+=> MongoDB ile haberleþmek için MongoDB.Driver kullanýyoruz.
