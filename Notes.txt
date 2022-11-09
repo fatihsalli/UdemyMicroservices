@@ -103,6 +103,9 @@ Udemy MicroServices Course
         -Controllers içerisinde UserController oluþturduk.
         -Kullanýcý kayýt için Dto nesnesi oluþturduk.
 
+=> Config dosyasýnýn kodlanmasý. IdentityServer içinde config classý içerisinde clientlar için düzenlemeleri yaptýk.
+    
+
 
 
 
