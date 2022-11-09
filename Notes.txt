@@ -90,6 +90,19 @@ Udemy MicroServices Course
     - Ýþlem bittiðinde klasör içine dosyalar oluþacak. 
     - Proje solutionýmýza gelerek klasör oluþturuyoruz."IdentityServer" olarak. Sað týk ile existing project diyerek var olan projeyi ekliyoruz.
 
+=> Proje içerisinde migrationý sildik kendimiz yapacaðýmýz için. Sql server paketini yükledik. Startup tarafýnda SqlServer ý ekledik. Appsettings de database ile ilgili yolumuzu yazdýk. Program tarafýnda hazýr gelen seedleri sildik. Ayrýca program.cs tarafýnda migrationý otomatik olarak database'e yansýtmasý için "applicationDbContext.Database.Migrate();" komutu ile. Sistemde user yok ise de program ilk ayaða kalktýðýnda 1 tane default ekleme yaptýk. Sonrasýnda migration oluþturduk.
+
+=> Update-database dedik eðer demeseydikde program ayaða kalktýðýnda otomatik olarak yapacaktý. DBeaver ile kontrol ediyoruz.
+
+=> Bir container'ý volume baðlantýsý yok ise container kapandýðýnda bilgiler gidecektir. Bunu docker compose tarafýna geçtiðimizde mapleyeceðiz.
+
+=> IdentityServer kütüphanesini halihazýrdaki MVC veya API projemize paket olarak yükleyebiliriz. Biz burada IdentityServer firmasýnýn bize sunmuþ olduðu hazýr bir template 'i kullandýk. Bu template sayesinde Endpoint'lerimiz Oarth 2.0 ve OpenID Connect uygun olarak hazýr bir þekilde sunulmaktadýr.
+
+=> IdentityServer template içerisinde kullanýcý kayýt olmasý ile ilgili bir endpoint gelmediði için bunu oluþturuyoruz.
+    Sýrasýyla;
+        -Controllers içerisinde UserController oluþturduk.
+        -Kullanýcý kayýt için Dto nesnesi oluþturduk.
+
 
 
 
