@@ -28,6 +28,9 @@ namespace FreeCourse.IdentityServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //Yeni eklediğimiz UserController tarafında Authentication ayarlaması yapacağız.Claim bazlı bir yetkilendirme vardır. Bu metot claim bazlı yetkilendirmeyi ekler, yani policy'i ekler.
+            services.AddLocalApiAuthentication();
+
             services.AddControllersWithViews();
 
             //Sql server olarak değiştirdik.
@@ -83,6 +86,9 @@ namespace FreeCourse.IdentityServer
 
             app.UseRouting();
             app.UseIdentityServer();
+            //Authenticationı ekledik
+            app.UseAuthentication();
+
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
