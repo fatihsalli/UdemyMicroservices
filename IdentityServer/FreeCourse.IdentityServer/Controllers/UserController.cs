@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.JsonWebTokens;
 using System.Linq;
 using System.Threading.Tasks;
 using static IdentityServer4.IdentityServerConstants;
@@ -41,6 +42,25 @@ namespace FreeCourse.IdentityServer.Controllers
             }
             return CreateActionResultInstance(Response<NoContent>.Success(204));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub);
+
+            if (userIdClaim == null) return CreateActionResultInstance(Response<NoContent>.Fail("Claim not found!", 400));
+
+            var user = await _userManager.FindByIdAsync(userIdClaim.Value);
+
+            if (user==null) return CreateActionResultInstance(Response<NoContent>.Fail("User not found!", 400));
+
+            var userDto = new UserForClientDto {Id=user.Id,UserName=user.UserName,Email=user.Email,City=user.City };
+
+            return CreateActionResultInstance(Response<UserForClientDto>.Success(userDto, 200));
+
+        }
+
+
 
 
 
