@@ -4,6 +4,7 @@
 
 using IdentityServer4;
 using IdentityServer4.Models;
+using System;
 using System.Collections.Generic;
 
 namespace FreeCourse.IdentityServer
@@ -20,11 +21,16 @@ namespace FreeCourse.IdentityServer
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
 
-
+        //IdentityResource geriye token doldurduğumuzda User ile ilgili hangi bilgileri ekleyeceğimizi belirtiyoruz.
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
-
+                       new IdentityResources.Email(),
+                       //OpenId mutlaka olmaldır.Bunu kullanmaz isek OpenId protolüne aykırı hareket etmiş oluruz.
+                       new IdentityResources.OpenId(),
+                       new IdentityResources.Profile(),
+                       //Hazır olmadığı için kendimiz ekledik.Kendimiz yazdığımız için Claim'i de eklememiz gerekiyor. Yukarıdakiler için hazır geliyor.
+                       new IdentityResource(){Name="roles",DisplayName="Roles",Description="User Roles",UserClaims=new []{"role"} }
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -48,6 +54,20 @@ namespace FreeCourse.IdentityServer
                     AllowedGrantTypes=GrantTypes.ClientCredentials,
                     //Hangi Apilere istek yapabileceğini belirtiyoruz.
                     AllowedScopes={ "catalog_fullpermission", "photo_stock_fullpermission",IdentityServerConstants.LocalApi.ScopeName }
+                },
+                //User için olan tokenımızın clientını oluşturduk. OfflineAccess => Offlineken RefreshToken alabilmek için
+                new Client
+                {
+                    ClientName="Asp.Net Core MVC",
+                    ClientId="WebMvcClientForUser",
+                    ClientSecrets={new Secret("secret".Sha256())},
+                    AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
+                    AllowedScopes={IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess,"roles"},
+                    AccessTokenLifetime=1*60*60,
+                    RefreshTokenExpiration=TokenExpiration.Absolute,
+                    AbsoluteRefreshTokenLifetime=(int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,
+                    RefreshTokenUsage=TokenUsage.ReUse
+
                 }
             };
     }
