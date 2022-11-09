@@ -1,8 +1,10 @@
 using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Services.Catalog.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +28,20 @@ namespace FreeCourse.Services.Catalog
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            //Jwt ile kimlik doðrulama için aþaðýdaki kodlarý tanýmladýk.
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                //Tokený kimin daðýttýðý bilgisini veriyoruz.
+                options.Authority = Configuration["IdentityServerURL"];
+                //Audience ý belirttik. Bu rastgele bir deðer deðil IdentityServer=>Config dosyasý üzerinden gelir.
+                options.Audience = "resource_catalog";
+                //Https bekleyeceði için onu belirttik
+                options.RequireHttpsMetadata = false;
+            });
+
+
+
+
             //ICategoryService-CategoryService
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseService, CourseService>();
@@ -42,11 +58,17 @@ namespace FreeCourse.Services.Catalog
                 return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
             });
 
-            services.AddControllers();
+            //Tüm Controller üzerine [Authorize] yazmak yerine aþaðýdaki düzenlemeyi Startup tarafýnda yaptýk. AddController içerisine opt ile girerek düzenlemeyi yapýyoruz.
+            services.AddControllers(opt=>
+            {
+                opt.Filters.Add(new AuthorizeFilter());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.Catalog", Version = "v1" });
             });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -59,6 +81,9 @@ namespace FreeCourse.Services.Catalog
             }
 
             app.UseRouting();
+
+            //Authentication ekledik
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

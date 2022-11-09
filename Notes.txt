@@ -104,6 +104,8 @@ Udemy MicroServices Course
         -Kullanýcý kayýt için Dto nesnesi oluþturduk.
 
 => Config dosyasýnýn kodlanmasý. IdentityServer içinde config classý içerisinde clientlar için düzenlemeleri yaptýk.
+
+=> Catalog.API tarafýnda Json Web Token ile kimlik doðrulama için ilgili paketi yüklüyoruz.(Jwt Bearer)
     
 
 
