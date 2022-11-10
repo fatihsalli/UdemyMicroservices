@@ -1,5 +1,6 @@
 using FreeCourse.Services.Basket.Services;
 using FreeCourse.Services.Basket.Settings;
+using FreeCourse.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,12 @@ namespace FreeCourse.Services.Basket
         {
             //appsettings'i okuyarak "RedisSettings" classýndaki propertyleri set ediyoruz.
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
+            //SharedLibrary-Services içerisinde SharedIdentityService "IHttpContextAccessor" interface ini kullanabilmek için burada eklememiz gerekmektedir.
+            services.AddHttpContextAccessor();
+            //Shared Librarydeki "SharedIdentityService" classýný kullanabilmek için burada DI containerda ekledik.
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+            //Basket service nesne türettik
+            services.AddScoped<IBasketService, BasketService>();
 
             //Metotlarýn çalýþabilmesi için içine girerek ayarlamayý yaptýk. <RedisService> bu ifadeyi singletonda siledebiliriz. Zaten içine girerek nesneyi veriyoruz.
             services.AddSingleton<RedisService>(sp =>
