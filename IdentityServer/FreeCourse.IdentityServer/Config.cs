@@ -21,7 +21,7 @@ namespace FreeCourse.IdentityServer
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
 
-        //IdentityResource geriye token doldurduğumuzda User ile ilgili hangi bilgileri ekleyeceğimizi belirtiyoruz.
+        //IdentityResource geriye token döndüğümüzde User ile ilgili hangi bilgileri ekleyeceğimizi belirtiyoruz.
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {

@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeCourse.IdentityServer", "IdentityServer\FreeCourse.IdentityServer\FreeCourse.IdentityServer.csproj", "{4F7FEA86-DBD7-4171-90DC-F2AC63367767}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PhotoStock", "PhotoStock", "{EAB350D2-0EB9-4750-B952-FB19BCC9156B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeCourse.Services.PhotoStock", "Services\PhotoStock\FreeCourse.Services.PhotoStock\FreeCourse.Services.PhotoStock.csproj", "{9E37CC55-83FB-4F15-B193-CB1987464186}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,10 @@ Global
 		{4F7FEA86-DBD7-4171-90DC-F2AC63367767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F7FEA86-DBD7-4171-90DC-F2AC63367767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F7FEA86-DBD7-4171-90DC-F2AC63367767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E37CC55-83FB-4F15-B193-CB1987464186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E37CC55-83FB-4F15-B193-CB1987464186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E37CC55-83FB-4F15-B193-CB1987464186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E37CC55-83FB-4F15-B193-CB1987464186}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +58,8 @@ Global
 		{6A67CE27-6064-4178-BA7C-FEA8A6ED63FB} = {2DFEE9D1-2C9C-49AE-A578-7B81D541FBBF}
 		{BD4E602C-3F70-43FF-8867-53D655080CAD} = {87B99EF0-E5F8-49D5-91DD-F0FDF260BCCF}
 		{4F7FEA86-DBD7-4171-90DC-F2AC63367767} = {1D5CF8A4-F52D-476F-9BE9-D9F21B9BF30E}
+		{EAB350D2-0EB9-4750-B952-FB19BCC9156B} = {2E0C15BB-A7C7-4FEB-90EE-BFEAB1927941}
+		{9E37CC55-83FB-4F15-B193-CB1987464186} = {EAB350D2-0EB9-4750-B952-FB19BCC9156B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1571A712-F3A0-4CE4-90AF-B2E766222CB3}
