@@ -32,7 +32,7 @@ namespace FreeCourse.Services.Basket
             //appsettings'i okuyarak "RedisSettings" classýndaki propertyleri set ediyoruz.
             services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
 
-            //Metotlarýn çalýþabilmesi için içine girerek ayarlamayý yaptýk.
+            //Metotlarýn çalýþabilmesi için içine girerek ayarlamayý yaptýk. <RedisService> bu ifadeyi singletonda siledebiliriz. Zaten içine girerek nesneyi veriyoruz.
             services.AddSingleton<RedisService>(sp =>
             {
                 //Redissetting içindeki ayarlamalarý okumak için
