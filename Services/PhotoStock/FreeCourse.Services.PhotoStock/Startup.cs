@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,8 +27,23 @@ namespace FreeCourse.Services.PhotoStock
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Jwt ile kimlik doðrulama için aþaðýdaki kodlarý tanýmladýk.
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                //Tokený kimin daðýttýðý bilgisini veriyoruz.
+                options.Authority = Configuration["IdentityServerURL"];
+                //Audience ý belirttik. Bu rastgele bir deðer deðil IdentityServer=>Config dosyasý üzerinden gelir.
+                options.Audience = "photo_stock_catalog";
+                //Https bekleyeceði için onu belirttik
+                options.RequireHttpsMetadata = false;
+            });
 
-            services.AddControllers();
+            //Tüm Controller üzerine [Authorize] yazmak yerine aþaðýdaki düzenlemeyi Startup tarafýnda yaptýk. AddController içerisine opt ile girerek düzenlemeyi yapýyoruz.
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add(new AuthorizeFilter());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.PhotoStock", Version = "v1" });
@@ -46,6 +63,9 @@ namespace FreeCourse.Services.PhotoStock
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Authentication ekledik
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
