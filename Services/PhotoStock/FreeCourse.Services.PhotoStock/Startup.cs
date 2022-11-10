@@ -33,7 +33,7 @@ namespace FreeCourse.Services.PhotoStock
                 //Tokený kimin daðýttýðý bilgisini veriyoruz.
                 options.Authority = Configuration["IdentityServerURL"];
                 //Audience ý belirttik. Bu rastgele bir deðer deðil IdentityServer=>Config dosyasý üzerinden gelir.
-                options.Audience = "photo_stock_catalog";
+                options.Audience = "resource_photo_stock";
                 //Https bekleyeceði için onu belirttik
                 options.RequireHttpsMetadata = false;
             });

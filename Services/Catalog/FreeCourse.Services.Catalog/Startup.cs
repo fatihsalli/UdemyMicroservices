@@ -39,9 +39,6 @@ namespace FreeCourse.Services.Catalog
                 options.RequireHttpsMetadata = false;
             });
 
-
-
-
             //ICategoryService-CategoryService
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICourseService, CourseService>();
