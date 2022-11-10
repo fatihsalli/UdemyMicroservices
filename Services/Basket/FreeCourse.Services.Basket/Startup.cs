@@ -1,3 +1,5 @@
+using FreeCourse.Services.Basket.Services;
+using FreeCourse.Services.Basket.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -5,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +29,22 @@ namespace FreeCourse.Services.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //appsettings'i okuyarak "RedisSettings" classýndaki propertyleri set ediyoruz.
+            services.Configure<RedisSettings>(Configuration.GetSection("RedisSettings"));
+
+            //Metotlarýn çalýþabilmesi için içine girerek ayarlamayý yaptýk.
+            services.AddSingleton<RedisService>(sp =>
+            {
+                //Redissetting içindeki ayarlamalarý okumak için
+                var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
+                //RedisService nesnesini türettik
+                var redis=new RedisService(redisSettings.Host, redisSettings.Port);
+                //RedisService Connect metotunu tetikledik.
+                redis.Connect();
+                //Geriye nesneyi döndük.
+                return redis;
+            });
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
