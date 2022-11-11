@@ -19,7 +19,8 @@ namespace FreeCourse.IdentityServer
                 new ApiResource("resource_photo_stock"){Scopes={"photo_stock_fullpermission"}},
                 //Basket Api için önce aşağıda scope oluşturduk şimdide burada ApiResource ekliyoruz.
                 new ApiResource("resource_basket"){Scopes={"basket_fullpermission"}},
-
+                //Discount Api için 
+                new ApiResource("resource_discount"){Scopes={"discount_fullpermission"}},
                 //IdentityServer için hazır yapı kullandık
                 new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
             };
@@ -44,7 +45,8 @@ namespace FreeCourse.IdentityServer
                 new ApiScope("photo_stock_fullpermission","Access for Photostock API"),
                 //Basket microservisi için scope oluşturduk.
                 new ApiScope("basket_fullpermission","Access for Basket API"),
-
+                //Discount microservisi için scope oluşturduk.
+                new ApiScope("discount_fullpermission","Access for Discount API"),
                 //IdentityServer ile gelen "IdentityServerConstants" kullandık. Identity serverın kendisine yapılan istekler için tanımladık.
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
@@ -69,7 +71,7 @@ namespace FreeCourse.IdentityServer
                     AllowOfflineAccess=true,
                     ClientSecrets={new Secret("secret".Sha256())},
                     AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
-                    AllowedScopes={ "basket_fullpermission", IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles"},
+                    AllowedScopes={ "basket_fullpermission","discount_fullpermission", IdentityServerConstants.StandardScopes.Email,IdentityServerConstants.StandardScopes.OpenId,IdentityServerConstants.StandardScopes.Profile,IdentityServerConstants.StandardScopes.OfflineAccess, IdentityServerConstants.LocalApi.ScopeName, "roles"},
                     AccessTokenLifetime=1*60*60,
                     RefreshTokenExpiration=TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime=(int)(DateTime.Now.AddDays(60)-DateTime.Now).TotalSeconds,

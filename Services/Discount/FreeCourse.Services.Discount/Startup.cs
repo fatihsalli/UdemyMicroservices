@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,10 +29,31 @@ namespace FreeCourse.Services.Discount
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.
+            var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //Json web tokenda yer alan sub baþlýðýný (User id'nin tutulduðu) nameidentifier olarak çeviriyor bunu deðiþtiriyoruz. Burada söylediðimiz herbir claimi maplerken sub tipinde olaný mapleme diyoruz.
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+            //Jwt ile kimlik doðrulama için aþaðýdaki kodlarý tanýmladýk.
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                //Tokený kimin daðýttýðý bilgisini veriyoruz.
+                options.Authority = Configuration["IdentityServerURL"];
+                //Audience ý belirttik. Bu rastgele bir deðer deðil IdentityServer=>Config dosyasý üzerinden gelir.
+                options.Audience = "resource_discount";
+                //Https bekleyeceði için onu belirttik
+                options.RequireHttpsMetadata = false;
+            });
+
             //Automapper ekledik. Aþaðýda belirtilen teknik ile þunu söylemek istiyoruz Startup'ýn yer aldýðý Assembly'de IProfileExpression ya da IProfileConfiguration'dan miras alan classlarý maplemeye dahil ediyor.
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddControllers();
+            //Jwt ile user üzerinden koruma altýna almak için aþaðýdaki filterý ekledik.
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FreeCourse.Services.Discount", Version = "v1" });
@@ -46,6 +71,9 @@ namespace FreeCourse.Services.Discount
             }
 
             app.UseRouting();
+
+            //Authentication for json
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
