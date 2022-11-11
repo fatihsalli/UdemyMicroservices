@@ -3,5 +3,5 @@ Id serial primary key,
 UserId varchar(200) unique not null,
 Rate smallint not null,
 DiscountCode varchar(50) not null,
-CreatedDate timestamp not null default CURRENT_TIMESTAMP
+CreatedTime timestamp not null default CURRENT_TIMESTAMP
 )
