@@ -2,9 +2,7 @@
 using FreeCourse.Services.Discount.Services;
 using FreeCourse.Shared.ControllerBases;
 using FreeCourse.Shared.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Discount.Controllers
