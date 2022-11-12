@@ -45,8 +45,8 @@ namespace FreeCourse.Services.Catalog.Services
 
         public async Task<Response<CategoryDto>> GetByIdAsync(string id)
         {
-            //Id ile ilgili category'i bulduk.
-            var category=await _categoryCollection.Find(x=> x.Id == id).FirstOrDefaultAsync();
+            //Id ile ilgili category'i bulduk. SingleOrDefault aslında daha uygun 1 tane olmalı.
+            var category=await _categoryCollection.Find(x=> x.Id == id).SingleOrDefaultAsync();
 
             if (category==null)
             {
@@ -55,9 +55,5 @@ namespace FreeCourse.Services.Catalog.Services
 
             return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
-
-
-
-
     }
 }

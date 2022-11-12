@@ -25,6 +25,7 @@ namespace FreeCourse.Services.Catalog.Controllers
             return CreateActionResultInstance(response);
         }
 
+        //api/categories/id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {

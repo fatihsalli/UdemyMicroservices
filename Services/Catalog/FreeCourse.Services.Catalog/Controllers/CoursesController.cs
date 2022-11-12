@@ -33,7 +33,7 @@ namespace FreeCourse.Services.Catalog.Controllers
 
         //2 tane id ile aldığımız için Route'u direkt olarak verdik.
         [HttpGet]
-        [Route("/api/[controller]/GetAllByUserId/{userId}")]
+        [Route("/api/[controller]/[action]/{userId}")]
         public async Task<IActionResult> GetAllByUserId(string userId)
         {
             var response = await _courseService.GetAllByUserIdAsync(userId);
@@ -54,6 +54,7 @@ namespace FreeCourse.Services.Catalog.Controllers
             return CreateActionResultInstance(response);
         }
 
+        //course/4=> delete
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
