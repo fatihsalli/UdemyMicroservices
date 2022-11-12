@@ -1,7 +1,6 @@
 ﻿using FreeCourse.Services.Basket.Dtos;
 using FreeCourse.Shared.Dtos;
 using System;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Threading.Tasks;
 

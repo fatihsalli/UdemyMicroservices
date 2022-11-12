@@ -1,6 +1,4 @@
-﻿using FreeCourse.Services.Basket.Settings;
-using Microsoft.Extensions.Options;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 
 namespace FreeCourse.Services.Basket.Services
 {

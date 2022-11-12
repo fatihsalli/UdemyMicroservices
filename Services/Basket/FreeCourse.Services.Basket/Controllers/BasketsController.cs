@@ -1,8 +1,8 @@
 ﻿using FreeCourse.Services.Basket.Dtos;
 using FreeCourse.Services.Basket.Services;
 using FreeCourse.Shared.ControllerBases;
+using FreeCourse.Shared.Dtos;
 using FreeCourse.Shared.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -30,6 +30,10 @@ namespace FreeCourse.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basketDto)
         {
+            if (basketDto.UserId!=_sharedIdentityService.GetUserId)
+            {
+                return CreateActionResultInstance(Response<NoContent>.Fail("UserId is invalid!", 400));
+            }
             var response = await _basketService.SaveOrUpdate(basketDto);
             return CreateActionResultInstance(response);
         }
