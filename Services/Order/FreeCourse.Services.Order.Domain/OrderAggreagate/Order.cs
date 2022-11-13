@@ -14,13 +14,13 @@ namespace FreeCourse.Services.Order.Domain.OrderAggreagate
     // --Backing Field
     public class Order : Entity, IAggregateRoot
     {
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get;private set; }
 
         //"Owned Entity Type" biz bunu tanımladığımızda EF Core'a müdahale etmez isek Order içinde Address ile ilgili sütunları oluşturur.
-        public Address Address { get; set; }
+        public Address Address { get; private set; }
 
         //UserId gönderilecek.
-        public string BuyerId { get; set; }
+        public string BuyerId { get;private set; }
 
         //Backing fields. Order üzerinden kontrolsüz şekilde kimse orderItems a data eklememesi için oluşturduk. EF core dolduracak bir alt satırda da readonly olarak dış dünyaya açacağız.
         private readonly List<OrderItem> _orderItems;
