@@ -26,6 +26,12 @@ namespace FreeCourse.Services.Order.Domain.OrderAggreagate
         //Kapsülleme işlemi yaptık. Sadece okunması için.
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
 
+        //Aşağıda overload ettiğimiz için boş olarak da gösteriyoruz. Migration yaparken hata aldık.
+        public Order()
+        {
+
+        }
+
         public Order(Address address, string buyerId)
         {
             _orderItems = new List<OrderItem>();

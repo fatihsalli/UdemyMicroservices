@@ -15,6 +15,11 @@ namespace FreeCourse.Services.Order.Domain.OrderAggreagate
         //Domain Driven Design da bu şekilde tanımlamıyoruz. Bu classa Order üzerinden erişiyoruz. Bunun sebebi Order dışında bu class eklenmemesi içindir. Biz OrderId yazmasak da EF Core 1'e çok ilişki tanımlamak için bu property'i database tarafında oluşturacak. Buna "Shadow Property" denir. Database tarafında sütun olarak yer alıp entity tarafında karşılığı olmayan propertylerdir.
         //public int OrderId { get; set; }
 
+        public OrderItem()
+        {
+
+        }
+
         //Sadece bu class üzerinden set edilebilmesi için private set yaptık.
         public OrderItem(string productId, string productName, string pictureUrl, decimal price)
         {

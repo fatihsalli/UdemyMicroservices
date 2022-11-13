@@ -18,7 +18,7 @@ namespace FreeCourse.Services.Order.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Domain.OrderAggreagate.Order>().ToTable("Orders", DEFAULT_SCHEMA);
-            modelBuilder.Entity<Domain.OrderAggreagate.OrderItem>().ToTable("Orders", DEFAULT_SCHEMA);
+            modelBuilder.Entity<Domain.OrderAggreagate.OrderItem>().ToTable("OrderItems", DEFAULT_SCHEMA);
             modelBuilder.Entity<Domain.OrderAggreagate.OrderItem>().Property(x => x.Price).HasColumnType("decimal(18,2)");
 
             //Owned Types //Veriler Order sınıfı üzerinden eklenecek kontrollü şekilde oluşturuyoruz bu sayede.

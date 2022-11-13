@@ -11,7 +11,7 @@ namespace FreeCourse.Services.Order.Application.Commands
         //Almamaız gereken parametreleri yazıyoruz.
         public string BuyerId { get; set; }
         public List<OrderItemDto> OrderItems { get; set; }
-        public AddressDto AddressDto { get; set; }
+        public AddressDto Address { get; set; }
 
     }
 }
