@@ -28,7 +28,7 @@ namespace FreeCourse.Services.Discount
             //Token üzerinden userid yi alabilmek için HttpContexti kullanacaðýz onun için ekledik.
             services.AddHttpContextAccessor();
             //DI Container'a ekledik.
-            services.AddScoped<ISharedIdentityService,SharedIdentityService>();
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
             services.AddScoped<IDiscountService, DiscountService>();
 
             //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.

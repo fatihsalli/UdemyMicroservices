@@ -2,11 +2,11 @@
 
 namespace FreeCourse.Services.Order.Infrastructure
 {
-    public class OrderDbContext:DbContext
+    public class OrderDbContext : DbContext
     {
         //Şema belirledik.
         public const string DEFAULT_SCHEMA = "ordering";
-        public OrderDbContext(DbContextOptions<OrderDbContext> options):base(options)
+        public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options)
         {
 
         }

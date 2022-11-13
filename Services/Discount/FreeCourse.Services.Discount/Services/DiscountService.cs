@@ -28,7 +28,7 @@ namespace FreeCourse.Services.Discount.Services
         public async Task<Response<NoContent>> Delete(int id)
         {
             //@ işareti ile gösterdiğimiz yeri new {id} yazarak dolduruyoruz. 
-            var status=await _dbConnection.ExecuteAsync("delete from discount where id=@Id",new {Id=id});
+            var status = await _dbConnection.ExecuteAsync("delete from discount where id=@Id", new { Id = id });
 
             return status > 0 ? Response<NoContent>.Success(204) : Response<NoContent>.Fail("Discount not found!", 404);
         }
@@ -37,14 +37,14 @@ namespace FreeCourse.Services.Discount.Services
         {
             //Dapper ile direkt olarak Sql'de nasıl sorgu yapıyorsak o şekilde yazdık.
             var discount = await _dbConnection.QueryAsync<Models.Discount>("Select * from discount");
-            var discountDto=_mapper.Map<List<DiscountDto>>(discount.ToList());
+            var discountDto = _mapper.Map<List<DiscountDto>>(discount.ToList());
 
             return Response<List<DiscountDto>>.Success(discountDto, 200);
         }
 
         public async Task<Response<DiscountDto>> GetByCodeAndUserId(string code, string userId)
         {
-            var discount = (await _dbConnection.QueryAsync<Models.Discount>("select * from discount where userid=@UserId and discountcode=@DiscountCode", new {UserId=userId,DiscountCode=code})).SingleOrDefault();
+            var discount = (await _dbConnection.QueryAsync<Models.Discount>("select * from discount where userid=@UserId and discountcode=@DiscountCode", new { UserId = userId, DiscountCode = code })).SingleOrDefault();
 
             if (discount == null)
             {
@@ -58,8 +58,8 @@ namespace FreeCourse.Services.Discount.Services
         public async Task<Response<DiscountDto>> GetById(int id)
         {
             //@ işareti ile gösterdiğimiz yeri new {id} yazarak dolduruyoruz. 
-            var discount=(await _dbConnection.QueryAsync<Models.Discount>("select * from discount where id=@Id", new { Id=id })).SingleOrDefault();
-            if (discount==null)
+            var discount = (await _dbConnection.QueryAsync<Models.Discount>("select * from discount where id=@Id", new { Id = id })).SingleOrDefault();
+            if (discount == null)
             {
                 return Response<DiscountDto>.Fail("Discount not found!", 404);
             }
@@ -70,11 +70,11 @@ namespace FreeCourse.Services.Discount.Services
 
         public async Task<Response<NoContent>> Save(DiscountDto discountDto)
         {
-            var discount=_mapper.Map<Models.Discount>(discountDto);
+            var discount = _mapper.Map<Models.Discount>(discountDto);
             //Gelen model üzerinden okuyup ekleyecektir.
             var saveStatus = await _dbConnection.ExecuteAsync("INSERT INTO discount (userid,rate,discountcode) VALUES(@UserId,@Rate,@DiscountCode)", discount);
 
-            if (saveStatus>0)
+            if (saveStatus > 0)
             {
                 return Response<NoContent>.Success(204);
             }
@@ -86,7 +86,7 @@ namespace FreeCourse.Services.Discount.Services
         {
             var discount = _mapper.Map<Models.Discount>(discountDto);
             //İsimsiz class yardımıyla bu şekilde de yazabiliriz.
-            var updateStatus=await _dbConnection.ExecuteAsync("update discount set userid=@UserId,discountcode=@DiscountCode,rate=@Rate where id=@Id", new { UserId=discount.UserId, DiscountCode = discount.DiscountCode,Rate=discount.Rate,Id=discount.Id});
+            var updateStatus = await _dbConnection.ExecuteAsync("update discount set userid=@UserId,discountcode=@DiscountCode,rate=@Rate where id=@Id", new { UserId = discount.UserId, DiscountCode = discount.DiscountCode, Rate = discount.Rate, Id = discount.Id });
 
             if (updateStatus > 0)
             {

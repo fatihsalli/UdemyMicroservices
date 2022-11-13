@@ -32,7 +32,7 @@ namespace FreeCourse.Services.PhotoStock.Controllers
 
                 return CreateActionResultInstance(Response<PhotoDto>.Success(photoDto, 200));
             }
-            return CreateActionResultInstance(Response<NoContent>.Fail("Photo is empty!",400));
+            return CreateActionResultInstance(Response<NoContent>.Fail("Photo is empty!", 400));
         }
 
         [HttpDelete]

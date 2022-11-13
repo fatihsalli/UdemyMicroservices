@@ -30,7 +30,7 @@ namespace FreeCourse.Services.Discount.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var response=await _discountService.GetById(id);
+            var response = await _discountService.GetById(id);
             return CreateActionResultInstance(response);
         }
 
@@ -39,28 +39,28 @@ namespace FreeCourse.Services.Discount.Controllers
         public async Task<IActionResult> GetByCode(string discountCode)
         {
             var userId = _sharedIdentityService.GetUserId;
-            var response=await _discountService.GetByCodeAndUserId(discountCode, userId);
+            var response = await _discountService.GetByCodeAndUserId(discountCode, userId);
             return CreateActionResultInstance(response);
         }
 
         [HttpPost]
         public async Task<IActionResult> Save(DiscountDto discountDto)
         {
-            var response=await _discountService.Save(discountDto);
+            var response = await _discountService.Save(discountDto);
             return CreateActionResultInstance(response);
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(DiscountDto discountDto)
         {
-            var response=await _discountService.Update(discountDto);
-            return CreateActionResultInstance(response);                   
+            var response = await _discountService.Update(discountDto);
+            return CreateActionResultInstance(response);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var response=await _discountService.Delete(id);
+            var response = await _discountService.Delete(id);
             return CreateActionResultInstance(response);
         }
 

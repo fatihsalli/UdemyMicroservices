@@ -7,12 +7,12 @@ namespace FreeCourse.Services.Basket.Services
         private readonly string _host;
         private readonly int _port;
         //Redis-StackExchangeden gelen sınıfı prop olarak alıyoruz.
-        private ConnectionMultiplexer _connectionMultiplexer; 
+        private ConnectionMultiplexer _connectionMultiplexer;
 
-        public RedisService(string host,int port)
+        public RedisService(string host, int port)
         {
-            _host= host;
-            _port=port;
+            _host = host;
+            _port = port;
         }
 
         //Redis tarafında bağlantıyı belirttik

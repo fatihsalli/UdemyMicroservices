@@ -12,7 +12,7 @@ namespace FreeCourse.Services.Discount.Services
         Task<Response<NoContent>> Save(DiscountDto discountDto);
         Task<Response<NoContent>> Update(DiscountDto discountDto);
         Task<Response<NoContent>> Delete(int id);
-        Task<Response<DiscountDto>> GetByCodeAndUserId(string code,string userId);
+        Task<Response<DiscountDto>> GetByCodeAndUserId(string code, string userId);
 
 
     }

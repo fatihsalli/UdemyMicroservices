@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Order.Application.Mapping
 {
@@ -21,7 +17,7 @@ namespace FreeCourse.Services.Order.Application.Mapping
         });
 
         //Mapper'ı çağırana kadar üstteki kodlar çalışmayacak
-        public static IMapper Mapper=> lazy.Value;
+        public static IMapper Mapper => lazy.Value;
 
     }
 }

@@ -7,7 +7,6 @@ using FreeCourse.IdentityServer.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -44,9 +43,9 @@ namespace FreeCourse.IdentityServer
                 var host = CreateHostBuilder(args).Build();
 
                 //Migrationların otomatik olarak oluşması için aşağıdaki düzenlemeleri yaptık. Using kullanıyoruzki işlem bittiğinde memoryden düşmesi için.
-                using (var scope=host.Services.CreateScope())
+                using (var scope = host.Services.CreateScope())
                 {
-                    var serviceProvider=scope.ServiceProvider;
+                    var serviceProvider = scope.ServiceProvider;
 
                     var applicationDbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
                     //Veritabanına yaptığımız migrationları yansıtacağız. Daha uygulama ayağa kalkerken.update-database komutunu unutabileceğimiz durumlarda oldukça faydalıdır.
@@ -60,9 +59,9 @@ namespace FreeCourse.IdentityServer
                         //Database de kullanıcı yok ise default olarak aşağıdaki kullanıcıyı ekliyoruz. Wait ile senkrona çevirdik.
                         userManager.CreateAsync(new ApplicationUser { UserName = "sallifatih34", Email = "mimsallifatih@gmail.com", City = "Istanbul", }, "Password12*").Wait();
                     }
-                    
+
                 }
-          
+
                 Log.Information("Starting host...");
                 host.Run();
                 return 0;

@@ -26,7 +26,7 @@ namespace FreeCourse.Services.Basket
         public void ConfigureServices(IServiceCollection services)
         {
             //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.
-            var requireAuthorizePolicy=new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //Json web tokenda yer alan sub baþlýðýný (User id'nin tutulduðu) nameidentifier olarak çeviriyor bunu deðiþtiriyoruz. Burada söylediðimiz herbir claimi maplerken sub tipinde olaný mapleme diyoruz.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
@@ -57,7 +57,7 @@ namespace FreeCourse.Services.Basket
                 //Redissetting içindeki ayarlamalarý okumak için
                 var redisSettings = sp.GetRequiredService<IOptions<RedisSettings>>().Value;
                 //RedisService nesnesini türettik
-                var redis=new RedisService(redisSettings.Host, redisSettings.Port);
+                var redis = new RedisService(redisSettings.Host, redisSettings.Port);
                 //RedisService Connect metotunu tetikledik.
                 redis.Connect();
                 //Geriye nesneyi döndük.
@@ -65,7 +65,7 @@ namespace FreeCourse.Services.Basket
             });
 
             //Jwt ile user üzerinden koruma altýna almak için aþaðýdaki filterý ekledik.
-            services.AddControllers(opt=>
+            services.AddControllers(opt =>
             {
                 opt.Filters.Add(new AuthorizeFilter(requireAuthorizePolicy));
             });

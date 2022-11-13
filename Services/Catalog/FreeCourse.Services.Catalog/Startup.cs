@@ -50,7 +50,7 @@ namespace FreeCourse.Services.Catalog
             });
 
             //Tüm Controller üzerine [Authorize] yazmak yerine aþaðýdaki düzenlemeyi Startup tarafýnda yaptýk. AddController içerisine opt ile girerek düzenlemeyi yapýyoruz.
-            services.AddControllers(opt=>
+            services.AddControllers(opt =>
             {
                 opt.Filters.Add(new AuthorizeFilter());
             });

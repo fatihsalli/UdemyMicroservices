@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FreeCourse.Services.Discount.Dtos
+﻿namespace FreeCourse.Services.Discount.Dtos
 {
     public class DiscountDto
     {
