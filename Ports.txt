@@ -3,4 +3,5 @@ Services
 	- PhotoStock.API => http://localhost:5012
 	- Basket.API => http://localhost:5013
 	- Discount.API => http://localhost:5014
+	- Order.API => http://localhost:5015
 	- IdentityServer => http://localhost:5001
