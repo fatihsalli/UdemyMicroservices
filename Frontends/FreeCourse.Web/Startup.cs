@@ -1,4 +1,6 @@
 using FreeCourse.Web.Models;
+using FreeCourse.Web.Services;
+using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,12 @@ namespace FreeCourse.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //IdentityService üzerinden kullanabilmek için.
+            services.AddHttpContextAccessor();
+
+            //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
+            services.AddHttpClient<IIdentityService, IdentityService>();
+
             //Options pattern ile appsettings deki ayarlarýmýzý "ServiceApiSettings" classý üzerinden okuyacaðýz.
             services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
 

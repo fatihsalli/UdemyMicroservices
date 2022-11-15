@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreeCourse.Web</title>
     <!--Bootsrap 5.0 yükledik.-->
-    <link href="~/lib/bootstrap-5.0/css/bootstrap.min.css" rel="stylesheet"/> 
+    <link href="~/lib/bootstrap-5.0/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -22,10 +22,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+                    }
+                    else
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Giriş Yap</a>
+                    }
+
+
+
                 </div>
             </div>
         </nav>
