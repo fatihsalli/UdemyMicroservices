@@ -8,3 +8,5 @@ Services
 	- IdentityServer => http://localhost:5001
 
 	- Gateway => http://localhost:5000
+
+	- Web => http://localhost:5010
