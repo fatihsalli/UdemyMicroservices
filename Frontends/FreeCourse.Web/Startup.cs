@@ -1,6 +1,7 @@
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Services;
 using FreeCourse.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,17 @@ namespace FreeCourse.Web
             //ClientId ve ClientSecret deðerleri için "ClientSettings" classýný oluþturduk. Options pattern üzerinden dolduracaðýz.
             services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
 
+            //Cookie oluþturuyoruz. Þemayý verdik servis tarafýnda yazdýðýmýz.
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
+            {
+                opt.LoginPath = "/Auth/SignIn";
+                //Refresh token 60 gün olduðu için burada da 60 gün verdik.
+                opt.ExpireTimeSpan=TimeSpan.FromDays(60);
+                //60 gün içinde giriþ yaptýðýnda süre uzasýn mý=> true dedik
+                opt.SlidingExpiration = true;
+                opt.Cookie.Name = "udemywebcookie";
+            });
+
             services.AddControllersWithViews();
         }
 
@@ -52,6 +64,9 @@ namespace FreeCourse.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            //Authentication ekledik.
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

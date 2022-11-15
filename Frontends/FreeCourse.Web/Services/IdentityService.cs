@@ -32,14 +32,90 @@ namespace FreeCourse.Web.Services
             _serviceApiSettings = serviceApiSettings.Value;
         }
 
-        public Task<TokenResponse> GetAccessTokenByRefreshToken()
+        public async Task<TokenResponse> GetAccessTokenByRefreshToken()
         {
-            throw new System.NotImplementedException();
+            //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.BaseUri,
+                //Https ile istek yapmaması için yazdık.
+                Policy = new DiscoveryPolicy { RequireHttps = false }
+            });
+
+            //Discovery de bir hata var mı diye kontrol ediyoruz.
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+
+            //Cookie den refresh tokenı alıyoruz. //new AuthenticationToken{Name=OpenIdConnectParameterNames.RefreshToken,Value=token.RefreshToken}, kaydederken bu isimle kaydettiğimiz için yine aynı isimle çağırıyoruz.
+            var refreshToken =await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            RefreshTokenRequest refreshTokenRequest = new()
+            { 
+                ClientId=_clientSettings.WebClientForUser.ClientId,
+                ClientSecret=_clientSettings.WebClientForUser.ClientSecret,
+                RefreshToken= refreshToken,
+                Address= discovery.TokenEndpoint
+            };
+
+            var token=await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+
+            if (token.IsError)
+            {
+                //Loglama yapılınca buraya ekleyebiliriz. Ya da hata da fırlatabiliriz.
+                return null;
+            }
+
+            //OpenIdConnect kütüphanesini yükledik. Access token,refresh token ve süreyi tuttuk.
+            var authenticationTokens=new List<AuthenticationToken> {
+                new AuthenticationToken{Name=OpenIdConnectParameterNames.AccessToken,Value=token.AccessToken},
+                new AuthenticationToken{Name=OpenIdConnectParameterNames.RefreshToken,Value=token.RefreshToken},
+                new AuthenticationToken{Name=OpenIdConnectParameterNames.ExpiresIn,Value=DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)}
+            };
+
+            //Cookieden bulup set edeceğiz.
+            var authenticationResult = await _httpContextAccessor.HttpContext.AuthenticateAsync();
+
+            var properties = authenticationResult.Properties;
+
+            //Var olanı cookieden aldığı bilgilerle dolduracak.
+            properties.StoreTokens(authenticationTokens);
+
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,authenticationResult.Principal,properties);
+
+            return token;
         }
 
-        public Task RevokeRefreshToken()
+        //Kullanıcı çıkış yaptığında refresh tokenı silmek için
+        public async Task RevokeRefreshToken()
         {
-            throw new System.NotImplementedException();
+            //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
+            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.BaseUri,
+                //Https ile istek yapmaması için yazdık.
+                Policy = new DiscoveryPolicy { RequireHttps = false }
+            });
+
+            //Discovery de bir hata var mı diye kontrol ediyoruz.
+            if (discovery.IsError)
+            {
+                throw discovery.Exception;
+            }
+
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            TokenRevocationRequest tokenRevocationRequest = new TokenRevocationRequest
+            {
+                ClientId=_clientSettings.WebClientForUser.ClientId,
+                ClientSecret=_clientSettings.WebClientForUser.ClientSecret,
+                Address=discovery.RevocationEndpoint,
+                Token=refreshToken,
+                TokenTypeHint="refresh token"
+            };
+
+            await _httpClient.RevokeTokenAsync(tokenRevocationRequest);
         }
 
         public async Task<Response<bool>> SignIn(SignInInput signInInput)
