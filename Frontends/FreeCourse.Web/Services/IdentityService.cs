@@ -37,7 +37,7 @@ namespace FreeCourse.Web.Services
             //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
             var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address = _serviceApiSettings.BaseUri,
+                Address = _serviceApiSettings.IdentityBaseUri,
                 //Https ile istek yapmaması için yazdık.
                 Policy = new DiscoveryPolicy { RequireHttps = false }
             });
@@ -93,7 +93,7 @@ namespace FreeCourse.Web.Services
             //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
             var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address = _serviceApiSettings.BaseUri,
+                Address = _serviceApiSettings.IdentityBaseUri,
                 //Https ile istek yapmaması için yazdık.
                 Policy = new DiscoveryPolicy { RequireHttps = false }
             });
@@ -123,7 +123,7 @@ namespace FreeCourse.Web.Services
             //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
             var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
-                Address = _serviceApiSettings.BaseUri,
+                Address = _serviceApiSettings.IdentityBaseUri,
                 //Https ile istek yapmaması için yazdık.
                 Policy = new DiscoveryPolicy { RequireHttps = false }
             });

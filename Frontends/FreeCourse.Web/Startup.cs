@@ -1,3 +1,4 @@
+using FreeCourse.Web.Handler;
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Services;
 using FreeCourse.Web.Services.Interfaces;
@@ -28,8 +29,16 @@ namespace FreeCourse.Web
             //IdentityService üzerinden kullanabilmek için.
             services.AddHttpContextAccessor();
 
+            //
+            var serviceApiSettings=Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+
             //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
             services.AddHttpClient<IIdentityService, IdentityService>();
+            //UserService de uygulama bize uygun bir HttpClient dönsün diye yazdýk. Exception ekledik burada da belirtiyoruz => "AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();"
+            services.AddHttpClient<IUserService, UserService>(opt =>
+            {
+                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
             //Options pattern ile appsettings deki ayarlarýmýzý "ServiceApiSettings" classý üzerinden okuyacaðýz.
             services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
