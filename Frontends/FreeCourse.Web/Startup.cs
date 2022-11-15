@@ -32,6 +32,9 @@ namespace FreeCourse.Web
             //
             var serviceApiSettings=Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
 
+            //ResourceOwnerPasswordTokenHandler DI Containere ekledik
+            services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+
             //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
             services.AddHttpClient<IIdentityService, IdentityService>();
             //UserService de uygulama bize uygun bir HttpClient dönsün diye yazdýk. Exception ekledik burada da belirtiyoruz => "AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();"
