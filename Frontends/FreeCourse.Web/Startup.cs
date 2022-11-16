@@ -1,3 +1,4 @@
+using FreeCourse.Shared.Services;
 using FreeCourse.Web.Handler;
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Services;
@@ -55,6 +56,9 @@ namespace FreeCourse.Web
 
             //ClientId ve ClientSecret deðerleri için "ClientSettings" classýný oluþturduk. Options pattern üzerinden dolduracaðýz.
             services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
+
+            //ISharedIdentityService nesne türettik. UserId için.
+            services.AddScoped<ISharedIdentityService,SharedIdentityService>();
 
             //Cookie oluþturuyoruz. Þemayý verdik servis tarafýnda yazdýðýmýz.
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
