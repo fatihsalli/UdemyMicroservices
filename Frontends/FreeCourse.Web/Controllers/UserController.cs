@@ -16,7 +16,13 @@ namespace FreeCourse.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _userService.GetUser());
+            var userViewModel = await _userService.GetUser();
+            return View(userViewModel);
         }
+
+
+
+
+
     }
 }
