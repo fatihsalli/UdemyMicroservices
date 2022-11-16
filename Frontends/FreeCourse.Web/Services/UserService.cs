@@ -1,4 +1,5 @@
-﻿using FreeCourse.Web.Models;
+﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Models;
 using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
@@ -17,8 +18,8 @@ namespace FreeCourse.Web.Services
 
         public async Task<UserVM> GetUser()
         {
-            var userViewModel= await _httpClient.GetFromJsonAsync<UserVM>("/api/user/getuser");
-            return userViewModel;
+            var response= await _httpClient.GetFromJsonAsync<Response<UserVM>>("/api/user/getuser");
+            return response.Data;
         }
     }
 }

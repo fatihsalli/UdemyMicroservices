@@ -12,26 +12,20 @@ namespace FreeCourse.Web.Controllers
         private readonly ICatalogService _catalogService;
         private readonly ISharedIdentityService _sharedIdentityService;
 
-        public CourseController(ICatalogService catalogService)
+        public CourseController(ICatalogService catalogService,ISharedIdentityService sharedIdentityService)
         {
             _catalogService = catalogService;
+            _sharedIdentityService = sharedIdentityService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var courses = await _catalogService.GetAllCourseByUserIdAsync(_sharedIdentityService.GetUserId);
+            var userId = _sharedIdentityService.GetUserId;
+
+            var courses = await _catalogService.GetAllCourseByUserIdAsync(userId);
+
             return View(courses);
         }
-
-
-
-
-
-
-
-
-
-
 
 
     }

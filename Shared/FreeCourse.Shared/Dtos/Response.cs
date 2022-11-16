@@ -5,17 +5,17 @@ namespace FreeCourse.Shared.Dtos
 {
     public class Response<T>
     {
-        //Client'a response olarak tek bir model dönüyoruz. Successdto ve Errordto olarak ikiye ayırmadık. Tek model dönüyoruz.
+        //Client'a response olarak tek bir model dönüyoruz. Successdto ve Errordto olarak ikiye ayırmadık. Tek model dönüyoruz. Json tarafında deserialize ederken hata aldık o sebeple private ları kaldırdık.
 
-        public T Data { get; private set; }
+        public T Data { get; set; }
 
         //Bir API'ya yani bir endpointe istek yaptığımzda response da zaten status code oluyor. Ama yazılım içerisinde ihtiyacımız olduğu için bu şekilde [JsonIgnore] ile tanımladık.
         [JsonIgnore]
-        public int StatusCode { get; private set; }
+        public int StatusCode { get; set; }
 
         //Yazılım içerisinde kullanmak için tanımladık Response Body'sinde görünmesini istemediğimiz için [JsonIgnore] dedik.
         [JsonIgnore]
-        public bool IsSuccessful { get; private set; }
+        public bool IsSuccessful { get; set; }
         public List<string> Errors { get; set; }
 
         //Static factory metotlar ile nesne türetiyoruz.

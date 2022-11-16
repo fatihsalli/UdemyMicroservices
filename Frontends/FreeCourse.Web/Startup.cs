@@ -28,8 +28,20 @@ namespace FreeCourse.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //ClientId ve ClientSecret deðerleri için "ClientSettings" classýný oluþturduk. Options pattern üzerinden dolduracaðýz.
+            services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
+
+            //Options pattern ile appsettings deki ayarlarýmýzý "ServiceApiSettings" classý üzerinden okuyacaðýz.
+            services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
+
             //IdentityService üzerinden kullanabilmek için.
             services.AddHttpContextAccessor();
+
+            //IClientAccessTokenCache kullanmamazý saðlýyor. IdentityModel kütüphanesi
+            services.AddAccessTokenManagement();
+
+            //ISharedIdentityService nesne türettik. UserId için.
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
             //ServiceApiSettings classýna ulaþtýk.
             var serviceApiSettings =Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
@@ -57,15 +69,6 @@ namespace FreeCourse.Web
             {
                 opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-            //Options pattern ile appsettings deki ayarlarýmýzý "ServiceApiSettings" classý üzerinden okuyacaðýz.
-            services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
-
-            //ClientId ve ClientSecret deðerleri için "ClientSettings" classýný oluþturduk. Options pattern üzerinden dolduracaðýz.
-            services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
-
-            //ISharedIdentityService nesne türettik. UserId için.
-            services.AddScoped<ISharedIdentityService,SharedIdentityService>();
 
             //Cookie oluþturuyoruz. Þemayý verdik servis tarafýnda yazdýðýmýz.
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
