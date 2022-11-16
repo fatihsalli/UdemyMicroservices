@@ -54,8 +54,10 @@ namespace FreeCourse.IdentityServer.Controllers
             if (user == null) return CreateActionResultInstance(Response<NoContent>.Fail("User not found!", 400));
 
             var userDto = new UserForClientDto { Id = user.Id, UserName = user.UserName, Email = user.Email, City = user.City };
+            //Bu şekilde yazınca Mvc tarafı tanımıyor.
+            //return CreateActionResultInstance(Response<UserForClientDto>.Success(userDto, 200));
 
-            return CreateActionResultInstance(Response<UserForClientDto>.Success(userDto, 200));
+            return Ok(new { Id = user.Id, UserName = user.UserName, Email = user.Email, City = user.City });
 
         }
 

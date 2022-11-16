@@ -25,21 +25,21 @@ namespace FreeCourse.Web.Handler
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             //Access tokenı cookiden okuduk
-            var accessToken=await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            var accessToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
             //Requestın headırına ekledik
-            request.Headers.Authorization=new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",accessToken);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
-            var response=await base.SendAsync(request,cancellationToken);
+            var response = await base.SendAsync(request, cancellationToken);
 
             //401 gelmesi durumunda Access token ömrünü kontrol ediyoruz.
-            if (response.StatusCode==System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 //Elimdeki refresh token ile access token almayı deniyorum.
                 var tokenResponse = await _identityService.GetAccessTokenByRefreshToken();
 
                 //Alabilirsem tekrar gönderiyorum alamadıysam buraya girmeyecek
-                if (tokenResponse!=null)
+                if (tokenResponse != null)
                 {
                     request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);
                     //Aynı isteği tekrar gönderiyoruz.
@@ -48,7 +48,7 @@ namespace FreeCourse.Web.Handler
             }
 
             //Yukarıdaki if bloğunda kontrol ettik kullanıcı response tokenı geçersiz olduğu için access token alamadığında buraya girecek ve kullanıcı login ekranına göndereceğiz. Bu sınıftan başka bir actiona gönderemeyeceğimiz için hata fırlatacağız. Bu hatayı middleware ile yakalayıp oradan yönlendireceğiz. "UnAuthorizeException" ile.
-            if (response.StatusCode==System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 throw new UnAuthorizeException();
             }
