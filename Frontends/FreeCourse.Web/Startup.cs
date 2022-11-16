@@ -31,17 +31,24 @@ namespace FreeCourse.Web
             //IdentityService üzerinden kullanabilmek için.
             services.AddHttpContextAccessor();
 
-            //
-            var serviceApiSettings=Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+            //ServiceApiSettings classýna ulaþtýk.
+            var serviceApiSettings =Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
 
             //ResourceOwnerPasswordTokenHandler DI Containere ekledik
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
 
-            //Catalog.Api için nesne türetip bir de pathi belirliyoruz.
+            //ClientCredentialTokenHandler DI Containere ekledik
+            services.AddScoped<ClientCredentialTokenHandler>();
+
+            //HttpClient kullandýðýmýz için ekledik.BaseUrl i "discovery üzerinden kendimiz alýyoruz."
+            services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
+
+            //Catalog.Api için nesne türetip bir de pathi belirliyoruz."ClientCredentialTokenHandler" ekliyoruz.
+            //Buradaki iþlem=> Catalog Service içerisinde HttpClient kullanýldýðýnda baseaddress'e gidecek."ClientCredentialTokenHandler" gelen isteði bölecek memorydeki tokený ekleyip gönderecek memory de yoksa sýfýrdan tokený ekleyip memory'ye ekleyecek. Sonrasýnda request headerýna tokenýmýzý ekleyecek.
             services.AddHttpClient<ICatalogService, CatalogService>(opt =>
             {
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
-            });
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
             //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
             services.AddHttpClient<IIdentityService, IdentityService>();
