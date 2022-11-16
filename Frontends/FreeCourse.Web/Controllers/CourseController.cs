@@ -2,6 +2,7 @@
 using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Controllers
@@ -21,10 +22,18 @@ namespace FreeCourse.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _sharedIdentityService.GetUserId;
-
             var courses = await _catalogService.GetAllCourseByUserIdAsync(userId);
-
             return View(courses);
+        }
+
+        public async Task<IActionResult> Create()
+        {
+            var categories=await _catalogService.GetAllCategoryAsync();
+
+            //Kullanıcı seçenek üzerinden ekleyebilmesi için
+            ViewBag.CategoryList = new SelectList(categories, "Id", "Name");
+
+            return View();
         }
 
 
