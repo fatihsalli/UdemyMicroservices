@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,6 +35,12 @@ namespace FreeCourse.Web
 
             //ResourceOwnerPasswordTokenHandler DI Containere ekledik
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+
+            //Catalog.Api için nesne türetip bir de pathi belirliyoruz.
+            services.AddHttpClient<ICatalogService, CatalogService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
+            });
 
             //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
             services.AddHttpClient<IIdentityService, IdentityService>();

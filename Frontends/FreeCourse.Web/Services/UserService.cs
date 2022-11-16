@@ -15,9 +15,9 @@ namespace FreeCourse.Web.Services
             _httpClient = httpClient;
         }
 
-        public async Task<UserViewModel> GetUser()
+        public async Task<UserVM> GetUser()
         {
-            var userViewModel= await _httpClient.GetFromJsonAsync<UserViewModel>("/api/user/getuser");
+            var userViewModel= await _httpClient.GetFromJsonAsync<UserVM>("/api/user/getuser");
             return userViewModel;
         }
     }

@@ -6,7 +6,7 @@ namespace FreeCourse.Web.Services.Interfaces
     public interface IUserService
     {
 
-        Task<UserViewModel> GetUser();
+        Task<UserVM> GetUser();
 
 
     }
