@@ -1,4 +1,5 @@
 ﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Web.Helpers;
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Models.Catalog;
 using FreeCourse.Web.Services.Interfaces;
@@ -14,11 +15,13 @@ namespace FreeCourse.Web.Services
         //İstek yapmak için
         private readonly HttpClient _httpClient;
         private readonly IPhotoStockService _photoStockService;
+        private readonly PhotoHelper _photoHelper;
 
-        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService)
+        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService,PhotoHelper photoHelper)
         {
             _httpClient = httpClient;
             _photoStockService = photoStockService; 
+            _photoHelper = photoHelper;
         }
 
         public async Task<bool> CreateCourseAsync(CourseCreateVM courseCreateVM)
@@ -67,6 +70,12 @@ namespace FreeCourse.Web.Services
 
             var responseSuccess=await response.Content.ReadFromJsonAsync<Response<List<CourseVM>>>();
 
+            //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
+            responseSuccess.Data.ForEach(x =>
+            {
+                x.Picture = _photoHelper.GetPhotoStockUrl(x.Picture);
+            });
+
             return responseSuccess.Data;
         }
 
@@ -81,6 +90,12 @@ namespace FreeCourse.Web.Services
             }
 
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CourseVM>>>();
+
+            //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
+            responseSuccess.Data.ForEach(x =>
+            {
+                x.Picture=_photoHelper.GetPhotoStockUrl(x.Picture);
+            });
 
             return responseSuccess.Data;
         }
@@ -97,11 +112,23 @@ namespace FreeCourse.Web.Services
 
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<CourseVM>>();
 
+            //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
+            responseSuccess.Data.Picture = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture);
+
             return responseSuccess.Data;
         }
 
         public async Task<bool> UpdateCourseAsync(CourseUpdateVM courseUpdateVM)
         {
+            var resultPhotoService = await _photoStockService.UploadPhoto(courseUpdateVM.PhotoFormFile);
+
+            if (resultPhotoService != null)
+            {
+                //eskisini silmek için
+                await _photoStockService.DeletePhoto(courseUpdateVM.Picture);
+                courseUpdateVM.Picture = resultPhotoService.Url;
+            }
+
             var response = await _httpClient.PutAsJsonAsync<CourseUpdateVM>("courses", courseUpdateVM);
             return response.IsSuccessStatusCode;
         }

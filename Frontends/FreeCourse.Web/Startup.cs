@@ -1,5 +1,6 @@
 using FreeCourse.Shared.Services;
 using FreeCourse.Web.Handler;
+using FreeCourse.Web.Helpers;
 using FreeCourse.Web.Models;
 using FreeCourse.Web.Services;
 using FreeCourse.Web.Services.Interfaces;
@@ -42,6 +43,9 @@ namespace FreeCourse.Web
 
             //ISharedIdentityService nesne türettik. UserId için.
             services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
+            //PhotoHelper DI Contanier a ekledik.
+            services.AddSingleton<PhotoHelper>();
 
             //ServiceApiSettings classýna ulaþtýk.
             var serviceApiSettings =Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
