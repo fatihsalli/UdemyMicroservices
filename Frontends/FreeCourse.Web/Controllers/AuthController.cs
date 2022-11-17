@@ -23,7 +23,7 @@ namespace FreeCourse.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(SignInInput signInInput)
+        public async Task<IActionResult> SignIn(SignInVM signInInput)
         {
             if (!ModelState.IsValid)
             {

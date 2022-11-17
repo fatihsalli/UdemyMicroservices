@@ -2,7 +2,7 @@
 
 namespace FreeCourse.Web.Models
 {
-    public class SignInInput
+    public class SignInVM
     {
         //Sign in için model oluşturduk
         [Required]

@@ -118,7 +118,7 @@ namespace FreeCourse.Web.Services
             await _httpClient.RevokeTokenAsync(tokenRevocationRequest);
         }
 
-        public async Task<Response<bool>> SignIn(SignInInput signInInput)
+        public async Task<Response<bool>> SignIn(SignInVM signInInput)
         {
             //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
             var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest

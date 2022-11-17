@@ -1,4 +1,5 @@
 ﻿using FreeCourse.Shared.Services;
+using FreeCourse.Web.Models.Catalog;
 using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,27 @@ namespace FreeCourse.Web.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CourseCreateVM courseCreateVM)
+        {
+            var categories = await _catalogService.GetAllCategoryAsync();
+            ViewBag.CategoryList = new SelectList(categories, "Id", "Name");
+
+            //Model kontrol
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            //UserId'yi ekliyoruz. Authorize ile işaretlediğimiz için alacağız token üzerinden.
+            courseCreateVM.UserId = _sharedIdentityService.GetUserId;
+            await _catalogService.CreateCourseAsync(courseCreateVM);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
 
     }
