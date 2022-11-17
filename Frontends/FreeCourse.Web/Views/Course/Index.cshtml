@@ -7,9 +7,9 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Kurslar</h5>
+                <h5 class="card-title">Courses</h5>
 
-                <a asp-controller="Course" asp-action="Create" class="btn btn-primary mb-3">Kurs Oluştur</a>
+                <a asp-controller="Course" asp-action="Create" class="btn btn-primary mb-3">Create Course</a>
 
                 @if (Model.Any())
                 {
@@ -20,6 +20,8 @@
                                 <th>Course Name</th>
                                 <th>Price</th>
                                 <th>Duration</th>
+                                <th>Category</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,6 +32,10 @@
                                     <td>@item.Name</td>
                                     <td>@item.Price</td>
                                     <td>@item.Feature.Duration</td>
+                                    <td>@item.Category.Name</td>
+                                    <td>
+                                        <a asp-controller="Course" asp-action="Update" asp-route-id="@item.Id" class="btn btn-success btn-sm">Update</a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -38,7 +44,7 @@
                 else
                 {
                     <div class="alert alert-info">
-                        Kurs bulunamadı!
+                        Course not found!
                     </div>
                 }
             </div>
