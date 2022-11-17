@@ -1,5 +1,7 @@
-﻿using FreeCourse.Web.Models;
+﻿using FreeCourse.Web.Exceptions;
+using FreeCourse.Web.Models;
 using FreeCourse.Web.Services.Interfaces;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -34,12 +36,18 @@ namespace FreeCourse.Web.Controllers
 
         }
 
-
-
-
+        //UnAuthorizeException hatasını yakalıyoruz burada.
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            var errorFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            if (errorFeature != null&& errorFeature.Error is UnAuthorizeException) 
+            { 
+                //Eldeki cookie silinsinki kullanıcı tekrar login ekranına yönlendirilsin.
+                return RedirectToAction(nameof(AuthController.Logout),"Auth");            
+            }
+
             return View(new ErrorVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
