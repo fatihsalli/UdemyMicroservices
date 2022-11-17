@@ -16,8 +16,7 @@ namespace FreeCourse.Web.Handler
             _clientCredentialTokenService = clientCredentialTokenService;
         }
 
-
-        //override ediyoruz SendAsync metotunu
+        //override ediyoruz SendAsync metotunu. ClientCredential akış tipinde refresh token olmaz çünkü Client bazlı.
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             //Requestın headırına ekledik
