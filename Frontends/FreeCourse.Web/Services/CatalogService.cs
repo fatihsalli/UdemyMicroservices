@@ -13,14 +13,23 @@ namespace FreeCourse.Web.Services
     {
         //İstek yapmak için
         private readonly HttpClient _httpClient;
+        private readonly IPhotoStockService _photoStockService;
 
-        public CatalogService(HttpClient httpClient)
+        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService)
         {
             _httpClient = httpClient;
+            _photoStockService = photoStockService; 
         }
 
         public async Task<bool> CreateCourseAsync(CourseCreateVM courseCreateVM)
         {
+            var resultPhotoService = await _photoStockService.UploadPhoto(courseCreateVM.PhotoFormFile);
+
+            if (resultPhotoService!=null)
+            {
+                courseCreateVM.Picture = resultPhotoService.Url;
+            }
+
             var response = await _httpClient.PostAsJsonAsync<CourseCreateVM>("courses",courseCreateVM);
             return response.IsSuccessStatusCode;
         }

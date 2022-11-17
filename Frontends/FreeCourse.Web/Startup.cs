@@ -62,6 +62,12 @@ namespace FreeCourse.Web
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
             }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 
+            //PhotoStock.Api için HttpClient kullanacaðýmýzdan burada DI Containera ekliyoruz. Client bazlý olduðu için "ClientCredentialTokenHandler" ekledik.
+            services.AddHttpClient<IPhotoStockService, PhotoStockService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.PhotoStock.Path}");
+            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+
             //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
             services.AddHttpClient<IIdentityService, IdentityService>();
             //UserService de uygulama bize uygun bir HttpClient dönsün diye yazdýk. Exception ekledik burada da belirtiyoruz => "AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();"
