@@ -9,6 +9,12 @@ namespace FreeCourse.Web.Models.Catalog
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+
+        //Açıklama 100 karakterden büyük olması durumu için oluşturduk.
+        public string ShortDescription
+        {
+            get => Description.Length > 100 ? Description.Substring(0, 100) + "..." : Description;
+        }
         public string UserId { get; set; }
         public string Picture { get; set; }
         public DateTime CreatedTime { get; set; }

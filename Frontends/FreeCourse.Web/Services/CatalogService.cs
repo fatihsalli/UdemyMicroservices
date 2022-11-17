@@ -118,6 +118,7 @@ namespace FreeCourse.Web.Services
             return responseSuccess.Data;
         }
 
+        // TODO: Fotoğrafı silerken hata alıyoruz.
         public async Task<bool> UpdateCourseAsync(CourseUpdateVM courseUpdateVM)
         {
             var resultPhotoService = await _photoStockService.UploadPhoto(courseUpdateVM.PhotoFormFile);
