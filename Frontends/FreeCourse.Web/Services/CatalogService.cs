@@ -73,7 +73,7 @@ namespace FreeCourse.Web.Services
             //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
             responseSuccess.Data.ForEach(x =>
             {
-                x.Picture = _photoHelper.GetPhotoStockUrl(x.Picture);
+                x.StockPictureUrl = _photoHelper.GetPhotoStockUrl(x.Picture);
             });
 
             return responseSuccess.Data;
@@ -94,7 +94,7 @@ namespace FreeCourse.Web.Services
             //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
             responseSuccess.Data.ForEach(x =>
             {
-                x.Picture=_photoHelper.GetPhotoStockUrl(x.Picture);
+                x.StockPictureUrl = _photoHelper.GetPhotoStockUrl(x.Picture);
             });
 
             return responseSuccess.Data;
@@ -112,8 +112,7 @@ namespace FreeCourse.Web.Services
 
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<CourseVM>>();
 
-            //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
-            responseSuccess.Data.Picture = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture);
+            responseSuccess.Data.StockPictureUrl = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture);
 
             return responseSuccess.Data;
         }

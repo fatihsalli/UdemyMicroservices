@@ -28,6 +28,15 @@ namespace FreeCourse.Web.Controllers
         }
 
 
+        public async Task<IActionResult> Detail(string id)
+        {
+            return View(await _catalogService.GetByCourseIdAsycn(id));
+
+        }
+
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
