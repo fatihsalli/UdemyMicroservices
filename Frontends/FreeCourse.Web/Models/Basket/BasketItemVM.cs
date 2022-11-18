@@ -10,7 +10,7 @@
 
 
         //İndirim kodu uygulandığında fiyatı tutmak için
-        private decimal? DiscountAppliedPrice { get; set; }
+        private decimal? DiscountAppliedPrice;
         public decimal GetCurrentPrice
         {
             get => DiscountAppliedPrice != null ? DiscountAppliedPrice.Value : Price;
