@@ -30,10 +30,7 @@ namespace FreeCourse.Services.Basket.Controllers
         [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basketDto)
         {
-            if (basketDto.UserId != _sharedIdentityService.GetUserId)
-            {
-                return CreateActionResultInstance(Response<NoContent>.Fail("UserId is invalid!", 400));
-            }
+            basketDto.UserId = _sharedIdentityService.GetUserId;
             var response = await _basketService.SaveOrUpdate(basketDto);
             return CreateActionResultInstance(response);
         }

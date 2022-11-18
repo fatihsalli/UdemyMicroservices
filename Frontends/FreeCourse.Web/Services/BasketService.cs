@@ -1,44 +1,107 @@
-﻿using FreeCourse.Web.Models.Basket;
+﻿using FreeCourse.Shared.Dtos;
+using FreeCourse.Shared.Services;
+using FreeCourse.Web.Models.Basket;
 using FreeCourse.Web.Services.Interfaces;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Services
 {
     public class BasketService : IBasketService
     {
-        public Task AddBasketItem(BasketItemVM basketItemVM)
+        private readonly HttpClient _httpClient;
+        public BasketService(HttpClient httpClient)
         {
-            throw new System.NotImplementedException();
+            _httpClient = httpClient;
         }
 
+        public async Task AddBasketItem(BasketItemVM basketItemVM)
+        {
+            var basketVM = await Get();
+
+            if (basketVM != null)
+            {
+                if (!basketVM.BasketItems.Any(x=> x.CourseId==basketItemVM.CourseId))
+                {
+                    basketVM.BasketItems.Add(basketItemVM);
+                }
+            }
+            else //sepette basket oluşmamış olma durumu (ilk defa ekleme)
+            {
+                basketVM= new BasketVM();
+                basketVM.BasketItems.Add(basketItemVM);
+            }
+            await SaveOrUpdate(basketVM);
+            return;
+        }
+
+        //Discount service den sonra
         public Task<bool> ApplyDiscount(string discountCode)
         {
             throw new System.NotImplementedException();
         }
 
+        //Discount service den sonra
         public Task<bool> CancelApplyDiscount()
         {
             throw new System.NotImplementedException();
         }
 
-        public Task<bool> Delete()
+        public async Task<bool> Delete()
         {
-            throw new System.NotImplementedException();
+            var response = await _httpClient.DeleteAsync("baskets");
+
+            return response.IsSuccessStatusCode;
         }
 
-        public Task<BasketVM> Get()
+        public async Task<BasketVM> Get()
         {
-            throw new System.NotImplementedException();
+            //Sepet dolu mu değil mi onun için datayı çekiyoruz.
+            var response = await _httpClient.GetAsync("baskets");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var basketVM = await response.Content.ReadFromJsonAsync<Response<BasketVM>>();
+            return basketVM.Data;
         }
 
-        public Task<bool> RemoveBasketItem(string courseId)
+        public async Task<bool> RemoveBasketItem(string courseId)
         {
-            throw new System.NotImplementedException();
+            var basketVM = await Get();
+
+            if (basketVM==null)
+            {
+                return false;
+            }
+            var deleteBasketItem = basketVM.BasketItems.FirstOrDefault(x => x.CourseId == courseId);
+
+            if (deleteBasketItem == null) return false;
+
+            var deleteResult=basketVM.BasketItems.Remove(deleteBasketItem);
+
+            if (!deleteResult)
+            {
+                return false;
+            }
+
+            //Sepetteki son ürünü silme durumunda indirimi null'a çekmek için
+            if (!basketVM.BasketItems.Any())
+            {
+                basketVM.DiscountCode=null;
+            }
+            return await SaveOrUpdate(basketVM);
         }
 
-        public Task<bool> SaveOrUpdate(BasketVM basketVM)
+        public async Task<bool> SaveOrUpdate(BasketVM basketVM)
         {
-            throw new System.NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync<BasketVM>("baskets",basketVM);
+
+            return response.IsSuccessStatusCode;
         }
     }
 }
