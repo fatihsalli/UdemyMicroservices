@@ -10,7 +10,7 @@
             <div class="card-body">
                 <h5 class="card-title">Basket</h5>
 
-                @if (Model!=null && Model.BasketItems.Any())
+                @if (Model != null && Model.BasketItems.Any())
                 {
                     <table class="table table-striped">
                         <tr>
@@ -23,12 +23,13 @@
                         {
                             <tr>
                                 <td>@item.CourseName</td>
-                                <td>@item.GetCurrentPrice TL</td>
+                                <td>@item.GetCurrentPrice TL @(Model.HasDiscount?$"(%{Model.DiscountRate.Value} discount applied)":"")</td>
                                 <td>
                                     <a asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-courseId="@item.CourseId" class="btn btn-danger">Delete</a>
                                 </td>
                             </tr>
                         }
+
 
                         @if (Model.HasDiscount)
                         {
@@ -43,6 +44,33 @@
                             <th colspan="2">@Model.TotalPrice TL</th>
                         </tr>
                     </table>
+
+                    <form asp-controller="Basket" asp-action="ApplyDiscount">
+                        @if (Model.HasDiscount)
+                        {
+                            <div class="alert alert-success">
+                                "@Model.DiscountCode" coupon code is used.
+                                <a asp-controller="Basket" asp-action="CancelApplyDiscount">(Cancel)</a>
+                            </div>
+
+                        }
+
+                        <div class="input-group mb-3">
+                            @*Name kısmında classı ve property yazdık kendi mapleyecek*@
+                            <input type="text" name="DiscountApplyVM.DiscountCode" class="form-control" />
+                            <button type="submit" class="btn btn-outline-secondary">Apply</button>
+                        </div>
+
+                        @if (TempData["discountStatus"] != null && (bool)TempData["discountStatus"] == false)
+                        {
+                            <div class="text-danger">Coupon code is invalid!</div>
+                        }
+
+                        @if (TempData["discountError"] != null)
+                        {
+                            <div class="text-danger">@TempData["discountError"]</div>
+                        }
+                    </form>
                 }
                 else
                 {

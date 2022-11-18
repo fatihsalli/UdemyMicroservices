@@ -46,6 +46,13 @@ namespace FreeCourse.Web.Extensions
                 opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+            //Discount.Api => HttpClient kullandığımız için ekledik. Kullanıcı olduğu için "ResourceOwnerPasswordTokenHandler" kullandık.
+            services.AddHttpClient<IDiscountService, DiscountService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Discount.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+
         }
     }
 }
