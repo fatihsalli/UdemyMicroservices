@@ -1,9 +1,8 @@
 using FreeCourse.Shared.Services;
+using FreeCourse.Web.Extensions;
 using FreeCourse.Web.Handler;
 using FreeCourse.Web.Helpers;
 using FreeCourse.Web.Models;
-using FreeCourse.Web.Services;
-using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,10 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FreeCourse.Web
 {
@@ -41,14 +36,11 @@ namespace FreeCourse.Web
             //IClientAccessTokenCache kullanmamazý saðlýyor. IdentityModel kütüphanesi
             services.AddAccessTokenManagement();
 
-            //ISharedIdentityService nesne türettik. UserId için.
-            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
-
             //PhotoHelper DI Contanier a ekledik.
             services.AddSingleton<PhotoHelper>();
 
-            //ServiceApiSettings classýna ulaþtýk.
-            var serviceApiSettings =Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+            //ISharedIdentityService nesne türettik. UserId için.
+            services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
             //ResourceOwnerPasswordTokenHandler DI Containere ekledik
             services.AddScoped<ResourceOwnerPasswordTokenHandler>();
@@ -56,29 +48,8 @@ namespace FreeCourse.Web
             //ClientCredentialTokenHandler DI Containere ekledik
             services.AddScoped<ClientCredentialTokenHandler>();
 
-            //HttpClient kullandýðýmýz için ekledik.BaseUrl i "discovery üzerinden kendimiz alýyoruz."
-            services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-
-            //Catalog.Api için nesne türetip bir de pathi belirliyoruz."ClientCredentialTokenHandler" ekliyoruz.
-            //Buradaki iþlem=> Catalog Service içerisinde HttpClient kullanýldýðýnda baseaddress'e gidecek."ClientCredentialTokenHandler" gelen isteði bölecek memorydeki tokený ekleyip gönderecek memory de yoksa sýfýrdan tokený ekleyip memory'ye ekleyecek. Sonrasýnda request headerýna tokenýmýzý ekleyecek.
-            services.AddHttpClient<ICatalogService, CatalogService>(opt =>
-            {
-                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
-            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-            //PhotoStock.Api için HttpClient kullanacaðýmýzdan burada DI Containera ekliyoruz. Client bazlý olduðu için "ClientCredentialTokenHandler" ekledik.
-            services.AddHttpClient<IPhotoStockService, PhotoStockService>(opt =>
-            {
-                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.PhotoStock.Path}");
-            }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-            //IdentityService de uygulama bize uygun bir HttpClient dönsün diye yazdýk.
-            services.AddHttpClient<IIdentityService, IdentityService>();
-            //UserService de uygulama bize uygun bir HttpClient dönsün diye yazdýk. Exception ekledik burada da belirtiyoruz => "AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();"
-            services.AddHttpClient<IUserService, UserService>(opt =>
-            {
-                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
-            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+            //Extension metot
+            services.AddHttpClientServices(Configuration);
 
             //Cookie oluþturuyoruz. Þemayý verdik servis tarafýnda yazdýðýmýz.
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
