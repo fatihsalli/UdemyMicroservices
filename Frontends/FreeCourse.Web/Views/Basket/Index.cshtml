@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model BasketVM
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Basket</h5>
+
+                @if (Model!=null && Model.BasketItems.Any())
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Course Price</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        @foreach (var item in Model.BasketItems)
+                        {
+                            <tr>
+                                <td>@item.CourseName</td>
+                                <td>@item.GetCurrentPrice TL</td>
+                                <td>
+                                    <a asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-courseId="@item.CourseId" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+
+                        @if (Model.HasDiscount)
+                        {
+                            <tr>
+                                <td>Discount Rate</td>
+                                <th colspan="2">%@Model.DiscountRate.Value</th>
+                            </tr>
+                        }
+
+                        <tr>
+                            <td>@(Model.HasDiscount?"Discounted Total Price":"Total Price")</td>
+                            <th colspan="2">@Model.TotalPrice TL</th>
+                        </tr>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">Basket is empty!</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

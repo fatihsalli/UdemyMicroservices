@@ -30,7 +30,7 @@ namespace FreeCourse.Web.Services
             }
             else //sepette basket oluşmamış olma durumu (ilk defa ekleme)
             {
-                basketVM= new BasketVM();
+                basketVM = new BasketVM();
                 basketVM.BasketItems.Add(basketItemVM);
             }
             await SaveOrUpdate(basketVM);
