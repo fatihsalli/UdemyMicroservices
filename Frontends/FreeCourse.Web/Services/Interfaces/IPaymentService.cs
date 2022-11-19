@@ -5,7 +5,7 @@ namespace FreeCourse.Web.Services.Interfaces
 {
     public interface IPaymentService
     {
-        Task<bool> ReceivePayment(PaymentInfoVM paymentInfoVM);
+        Task<bool> ReceivePayment(PaymentInfoInput paymentInfoInput);
 
     }
 }

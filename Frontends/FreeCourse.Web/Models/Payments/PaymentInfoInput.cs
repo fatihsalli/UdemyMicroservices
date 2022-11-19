@@ -1,6 +1,6 @@
 ﻿namespace FreeCourse.Web.Models.Payments
 {
-    public class PaymentInfoVM
+    public class PaymentInfoInput
     {
         public string CardName { get; set; }
         public string CardNumber { get; set; }
