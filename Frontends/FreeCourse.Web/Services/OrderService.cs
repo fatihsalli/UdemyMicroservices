@@ -65,7 +65,7 @@ namespace FreeCourse.Web.Services
                 var orderItem = new OrderItemCreateInput
                 {
                     ProductId = x.CourseId,
-                    Price=x.Price,
+                    Price=x.GetCurrentPrice,
                     //Catalog servis üzerinden alabiliriz. Önemli olmadığı için böyle bıraktık.
                     PictureUrl="",
                     ProductName=x.CourseName
@@ -81,6 +81,9 @@ namespace FreeCourse.Web.Services
             }
 
             var responseSuccess = await response.Content.ReadFromJsonAsync<Response<OrderCreatedVM>>();
+
+            //sepeti boşaltmak için
+            await _basketService.Delete();
 
             return new OrderCreatedVM { OrderId=responseSuccess.Data.OrderId,Error =null, IsSuccessful = true };
         }
