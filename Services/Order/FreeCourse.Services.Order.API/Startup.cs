@@ -37,6 +37,8 @@ namespace FreeCourse.Services.Order.API
             {
                 //Consumerý ekliyoruz
                 x.AddConsumer<CreateOrderMessageCommandConsumer>();
+                //Eventi yakalamak için ekliyoruz.
+                x.AddConsumer<CourseNameChangedEventConsumer>();
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
@@ -51,6 +53,12 @@ namespace FreeCourse.Services.Order.API
                     cfg.ReceiveEndpoint("create-order-service", e =>
                     {
                         e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(context);
+                    });
+
+                    //Exchangeden eventi çekeceðimiz için kuyruðu burada order tarafýnda oluþturduk.
+                    cfg.ReceiveEndpoint("course-name-changed-event-order-service", e =>
+                    {
+                        e.ConfigureConsumer<CourseNameChangedEventConsumer>(context);
                     });
                 });
             });

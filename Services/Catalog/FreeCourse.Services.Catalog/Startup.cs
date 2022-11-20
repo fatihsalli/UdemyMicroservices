@@ -1,5 +1,6 @@
 using FreeCourse.Services.Catalog.Services;
 using FreeCourse.Services.Catalog.Settings;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,25 @@ namespace FreeCourse.Services.Catalog
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            //Catalog ile Order arasýnda eventual consistency design patternýyla bir event oluþturuyoruz. Kurs adý deðiþtiði durumlarda sipariþlerde de deðiþmesi için
+            //Default port: 5672
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        //Rabbit Mq ile default olarak gelen deðeri kullanýyoruz.
+                        host.Username("guest");
+                        host.Password("guest");
+                    });
+                });
+            });
+            //Sonrasýnda "AddMassTransitHostedService" ekliyoruz.
+            services.AddMassTransitHostedService();
+
+
+
             //Jwt ile kimlik doðrulama için aþaðýdaki kodlarý tanýmladýk.
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
