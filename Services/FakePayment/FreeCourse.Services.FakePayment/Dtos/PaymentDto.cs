@@ -8,6 +8,8 @@
         public string CVV { get; set; }
         public decimal TotalPrice { get; set; }
 
+        //Asenkron iletişim için
+        public OrderDto Order { get; set; }
 
     }
 }
