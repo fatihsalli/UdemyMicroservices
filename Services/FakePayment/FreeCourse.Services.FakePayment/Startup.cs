@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -23,6 +24,23 @@ namespace FreeCourse.Services.FakePayment
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Order ile FakePayment asenkron iletiþim olacak. Buradaki düzenlemeler bunun için.
+            //Default port: 5672
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        //Rabbit Mq ile default olarak gelen deðeri kullanýyoruz.
+                        host.Username("guest");
+                        host.Password("guest");
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
+
             //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.
             var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //Json web tokenda yer alan sub baþlýðýný (User id'nin tutulduðu) nameidentifier olarak çeviriyor bunu deðiþtiriyoruz. Burada söylediðimiz herbir claimi maplerken sub tipinde olaný mapleme diyoruz.
