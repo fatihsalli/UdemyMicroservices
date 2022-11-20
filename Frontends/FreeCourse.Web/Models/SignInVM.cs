@@ -6,15 +6,15 @@ namespace FreeCourse.Web.Models
     {
         //Sign in için model oluşturduk
         [Required]
-        [Display(Name ="Email Adresiniz")]
+        [Display(Name ="Email Address")]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "Şifreniz")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
         [Required]
-        [Display(Name = "Beni Hatırla")]
+        [Display(Name = "Remember me!")]
         public bool IsRemember { get; set; }
 
 

@@ -31,9 +31,9 @@
                                     @User.Identity.Name
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profil</a></li>
+                                    <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profile</a></li>
                                     <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Basket</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Çıkış</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Logout</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -43,7 +43,7 @@
                     }
                     else
                     {
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Giriş Yap</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="SignIn">Login</a>
                     }
 
 
