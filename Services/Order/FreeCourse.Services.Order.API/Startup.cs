@@ -1,6 +1,8 @@
+using FreeCourse.Services.Order.Application.Consumer;
 using FreeCourse.Services.Order.Application.Handlers;
 using FreeCourse.Services.Order.Infrastructure;
 using FreeCourse.Shared.Services;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +30,33 @@ namespace FreeCourse.Services.Order.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Asenkron iletiþim dinlemek için kullanýyoruz. FakeOrder.Api den kopyaladýk.
+            //Order ile FakePayment asenkron iletiþim olacak. Buradaki düzenlemeler bunun için.
+            //Default port: 5672
+            services.AddMassTransit(x =>
+            {
+                //Consumerý ekliyoruz
+                x.AddConsumer<CreateOrderMessageCommandConsumer>();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        //Rabbit Mq ile default olarak gelen deðeri kullanýyoruz.
+                        host.Username("guest");
+                        host.Password("guest");
+                    });
+
+                    //Haberdar ediyoruz. Bu kuyruðu FakePayment controller tarafýnda ismini verdik. Hangi endpionti okuyacaðýný belirttik.
+                    cfg.ReceiveEndpoint("create-order-service", e =>
+                    {
+                        e.ConfigureConsumer<CreateOrderMessageCommandConsumer>(context);
+                    });
+                });
+            });
+            //Sonrasýnda "AddMassTransitHostedService" ekliyoruz.
+            services.AddMassTransitHostedService();
+
             //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.
             var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //Json web tokenda yer alan sub baþlýðýný (User id'nin tutulduðu) nameidentifier olarak çeviriyor bunu deðiþtiriyoruz. Burada söylediðimiz herbir claimi maplerken sub tipinde olaný mapleme diyoruz.
