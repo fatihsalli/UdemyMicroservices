@@ -17,7 +17,7 @@ namespace FreeCourse.Web.Services.Interfaces
         /// </summary>
         /// <param name="checkoutInput"></param>
         /// <returns></returns>
-        Task SuspendOrder(CheckoutInput checkoutInput);
+        Task<OrderSuspendVM> SuspendOrder(CheckoutInput checkoutInput);
 
         Task<List<OrderVM>> GetOrder();
 

@@ -42,7 +42,7 @@ namespace FreeCourse.Web.Services
 
             if (!responsePayment)
             {
-                return new OrderCreatedVM { Error = "Payment failed", IsSuccessful = false };
+                return new OrderCreatedVM { Error = "Payment is failed", IsSuccessful = false };
             }
 
             //Gelen data üzerinden "OrderCreateInput" oluşturduk.
@@ -95,9 +95,59 @@ namespace FreeCourse.Web.Services
         }
 
         //Asenkron iletişim
-        public Task SuspendOrder(CheckoutInput checkoutInput)
+        public async Task<OrderSuspendVM> SuspendOrder(CheckoutInput checkoutInput)
         {
-            throw new System.NotImplementedException();
+            var basket = await _basketService.Get();
+
+            //Gelen data üzerinden "OrderCreateInput" oluşturduk.
+            var orderCreateInput = new OrderCreateInput()
+            {
+                BuyerId = _sharedIdentityService.GetUserId,
+                Address = new AddressCreateInput
+                {
+                    Province = checkoutInput.Province,
+                    District = checkoutInput.District,
+                    Line = checkoutInput.Line,
+                    Street = checkoutInput.Street,
+                    ZipCode = checkoutInput.ZipCode
+                }
+            };
+
+            //"OrderCreateInput"a basketitemlerini ekledik.
+            basket.BasketItems.ForEach(x =>
+            {
+                var orderItem = new OrderItemCreateInput
+                {
+                    ProductId = x.CourseId,
+                    Price = x.GetCurrentPrice,
+                    //Catalog servis üzerinden alabiliriz. Önemli olmadığı için böyle bıraktık.
+                    PictureUrl = "",
+                    ProductName = x.CourseName
+                };
+                orderCreateInput.OrderItems.Add(orderItem);
+            });
+
+            var payment = new PaymentInfoInput()
+            {
+                CardName = checkoutInput.CardName,
+                CardNumber = checkoutInput.CardNumber,
+                Expiration = checkoutInput.Expiration,
+                CVV = checkoutInput.CVV,
+                TotalPrice = basket.TotalPrice,
+                Order=orderCreateInput
+            };
+
+            var responsePayment = await _paymentService.ReceivePayment(payment);
+
+            if (!responsePayment)
+            {
+                return new OrderSuspendVM { Error = "Payment is failed", IsSuccessful = false };
+            }
+
+            //sepeti boşaltmak için
+            await _basketService.Delete();
+
+            return new OrderSuspendVM { IsSuccessful= true};
         }
     }
 }

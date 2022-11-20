@@ -9,6 +9,11 @@ namespace FreeCourse.Shared.Messages
     //FakePayment mesajı gönderen => mesajı alan Order. Command 'i oluşturuyoruz.
     public class CreateOrderMessageCommand
     {
+        public CreateOrderMessageCommand()
+        {
+            OrderItems= new List<OrderItem>();
+        }
+
         public string BuyerId { get; set; }
         public List<OrderItem> OrderItems { get; set; }
 

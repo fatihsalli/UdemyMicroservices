@@ -1,6 +1,7 @@
 ﻿using FreeCourse.Web.Models.Order;
 using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Controllers
@@ -26,19 +27,28 @@ namespace FreeCourse.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutInput checkoutInput)
         {
-            var orderStatus = await _orderService.CreateOrder(checkoutInput);
+            //Senkron iletişim (1.YOL)
+            //var orderStatus = await _orderService.CreateOrder(checkoutInput);
 
-            if (!orderStatus.IsSuccessful)
+            //Asenkron İletişim (2.YOL)
+            var orderSuspend = await _orderService.SuspendOrder(checkoutInput);
+
+            if (!orderSuspend.IsSuccessful)
             {
                 var basket = await _basketService.Get();
                 ViewBag.Basket = basket;
 
-                ViewBag.Error = orderStatus.Error;
+                ViewBag.Error = orderSuspend.Error;
 
                 return View();
             }
 
-            return RedirectToAction(nameof(SuccessfulCheckout), new {orderId=orderStatus.OrderId});
+            //Senkron iletişim (1.YOL)
+            //return RedirectToAction(nameof(SuccessfulCheckout), new {orderId= orderSuspend.OrderId});
+
+            //Asenkron İletişim (2.YOL)
+            //Fakepayment da id dönmediğimiz için random değer atadık değiştirilebilir.
+            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = new Random().Next(1,1000) });
         }
 
         public IActionResult SuccessfulCheckout(int orderId)

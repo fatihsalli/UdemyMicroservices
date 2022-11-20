@@ -38,7 +38,7 @@ namespace FreeCourse.Services.FakePayment
                     });
                 });
             });
-
+            //Sonrasýnda "AddMassTransitHostedService" ekliyoruz.
             services.AddMassTransitHostedService();
 
             //Json web token payloadýnda "sub" tipinde bir user olduðu için policy oluþturarak bunu kontrol ediyoruz.
