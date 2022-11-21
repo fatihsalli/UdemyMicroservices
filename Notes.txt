@@ -1,36 +1,35 @@
 Udemy MicroServices Course
 
-
 -------------------------------------------------------------------------------------------------------------
 => CATALOG.API
-=> launchSettings.json aşağıdaki düzenlemeleri yaptık.
+=> launchSettings.json aï¿½aï¿½ï¿½daki dï¿½zenlemeleri yaptï¿½k.
 
     "FreeCourse.Services.Catalog": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
-        ==> "launchBrowser": false a set ettik neden? Uygulama ayağa kalktığında tarayıcıda açılmaması için bu düzenlemeyi yaptık.
+        ==> "launchBrowser": false a set ettik neden? Uygulama ayaï¿½a kalktï¿½ï¿½ï¿½nda tarayï¿½cï¿½da aï¿½ï¿½lmamasï¿½ iï¿½in bu dï¿½zenlemeyi yaptï¿½k.
       "launchBrowser": false,
       "launchUrl": "swagger",
-        ==> "applicationUrl": "http://localhost:5011" => CatalogApi için bu porta set ettik.
+        ==> "applicationUrl": "http://localhost:5011" => CatalogApi iï¿½in bu porta set ettik.
       "applicationUrl": "http://localhost:5011",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
 
-=> Microservice de IIS ile ayağa kaldırmıyoruz, Kestrel ile ayağa kaldıracağız. Birden çok service olduğu için kestrel seçilmelidir.
+=> Microservice de IIS ile ayaï¿½a kaldï¿½rmï¿½yoruz, Kestrel ile ayaï¿½a kaldï¿½racaï¿½ï¿½z. Birden ï¿½ok service olduï¿½u iï¿½in kestrel seï¿½ilmelidir.
 
-=> Catalog.API tarafında MongoDB kullanmak için "MongoDB.Driver" yükledik.
+=> Catalog.API tarafï¿½nda MongoDB kullanmak iï¿½in "MongoDB.Driver" yï¿½kledik.
 
-=> Shared Class Library oluşturduk. Response olarak tüm microservice lerde kullanılacak olan modellerimizi ekledik. [ResponseDto<T>] [NoContent]
+=> Shared Class Library oluï¿½turduk. Response olarak tï¿½m microservice lerde kullanï¿½lacak olan modellerimizi ekledik. [ResponseDto<T>] [NoContent]
 
-=> Dto nesneleri oluşturduk. Course Create-Update için Dto oluşturduk. Diğerleri için de oluşturmamız gerekir. Kurs öğrenme amaçlı olduğu için tekrarlamamak adına sadece course için oluşturuldu.
+=> Dto nesneleri oluï¿½turduk. Course Create-Update iï¿½in Dto oluï¿½turduk. Diï¿½erleri iï¿½in de oluï¿½turmamï¿½z gerekir. Kurs ï¿½ï¿½renme amaï¿½lï¿½ olduï¿½u iï¿½in tekrarlamamak adï¿½na sadece course iï¿½in oluï¿½turuldu.
 
 => Catalog.API Automapper library ekledik.
 
-=> Dockerize aşamasında localhost olarak bir tabire gerek yoktur. Uygulama Docker ile ayağa kalktığında sanki canlıya almış gibi düşünebiliriz.
+=> Dockerize aï¿½amasï¿½nda localhost olarak bir tabire gerek yoktur. Uygulama Docker ile ayaï¿½a kalktï¿½ï¿½ï¿½nda sanki canlï¿½ya almï¿½ï¿½ gibi dï¿½ï¿½ï¿½nebiliriz.
 
-=> Options pattern nedir? Appsettings üzerinden aşağıdaki gibi bir düzenleme yaptık. Startup tarafında Configuration üzerinden appsettings ayarlarına ulaşabiliriz. Ancak bunu yapmak yerine bu özellikleri bir class'a aktararak istediğimiz yerde kullanabiliriz. Buna options pattern denir.
+=> Options pattern nedir? Appsettings ï¿½zerinden aï¿½aï¿½ï¿½daki gibi bir dï¿½zenleme yaptï¿½k. Startup tarafï¿½nda Configuration ï¿½zerinden appsettings ayarlarï¿½na ulaï¿½abiliriz. Ancak bunu yapmak yerine bu ï¿½zellikleri bir class'a aktararak istediï¿½imiz yerde kullanabiliriz. Buna options pattern denir.
     "DatabaseSettings": {
     "CourseCollectionName": "Courses",
     "CategoryCollectionName": "Categories",
@@ -38,74 +37,81 @@ Udemy MicroServices Course
     "DatabaseName": "CatalogDb"
      },
 
-=> MongoDB ile haberleşmek için MongoDB.Driver kullanıyoruz.
+=> MongoDB ile haberleï¿½mek iï¿½in MongoDB.Driver kullanï¿½yoruz.
 
-=> Course ve Catalog için servislerimizi oluşturduk. Ctor da MongoDB.Driver ile database i tanımladık. Bu önemli bir konuydu.
+=> Course ve Catalog iï¿½in servislerimizi oluï¿½turduk. Ctor da MongoDB.Driver ile database i tanï¿½mladï¿½k. Bu ï¿½nemli bir konuydu.
 
-=> Catalog.API tarafında response koda göre dönebilmek için Shared klasörü içinde CustomBaseController oluşturduk. Bu Controller ın ControllerBase'den miras alabilmesi için => sağ tık - Edit Project File diyip frameworkü kendimiz manuel olarak ekledik.
+=> Catalog.API tarafï¿½nda response koda gï¿½re dï¿½nebilmek iï¿½in Shared klasï¿½rï¿½ iï¿½inde CustomBaseController oluï¿½turduk. Bu Controller ï¿½n ControllerBase'den miras alabilmesi iï¿½in => saï¿½ tï¿½k - Edit Project File diyip frameworkï¿½ kendimiz manuel olarak ekledik.
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App">
     </FrameworkReference>
   </ItemGroup>
 
-=> Course ve Catalog için controllerlarımızı oluşturduk. NLayer dersindeki gibi farklı bir durum değil.
+=> Course ve Catalog iï¿½in controllerlarï¿½mï¿½zï¿½ oluï¿½turduk. NLayer dersindeki gibi farklï¿½ bir durum deï¿½il.
 
-=> Portainer => Bilgisayarımızdaki imagelarımızı veya containerlarımızı yönetmemizi için bir arayüz sağlamaktadır. Komut satırına gerek olmadan güzel bir arayüz sağlamaktadır containerları yönetmek için. Docker yardımıyla container olarak ayağa kaldıracağız.
-    => https://docs.portainer.io/start/install/server/docker/linux sitesine girip Powershell de "docker volume create portainer_data" yazarak volume oluşturuyoruz.
-    => "docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest" sonrasında bu komutu yazıyoruz.  
-    => sonrasında "docker images" komutu ile oluşturduğumuz container'ı görebiliriz.
-    => https://localhost:9443/ tarayıcımıza yazarak gidiyoruz. Dikkat 9443 üstte yazdığımız için değişiyor bu önceden 9000 miş.
+=> Portainer => Bilgisayarï¿½mï¿½zdaki imagelarï¿½mï¿½zï¿½ veya containerlarï¿½mï¿½zï¿½ yï¿½netmemizi iï¿½in bir arayï¿½z saï¿½lamaktadï¿½r. Komut satï¿½rï¿½na gerek olmadan gï¿½zel bir arayï¿½z saï¿½lamaktadï¿½r containerlarï¿½ yï¿½netmek iï¿½in. Docker yardï¿½mï¿½yla container olarak ayaï¿½a kaldï¿½racaï¿½ï¿½z.
+    => https://docs.portainer.io/start/install/server/docker/linux sitesine girip Powershell de "docker volume create portainer_data" yazarak volume oluï¿½turuyoruz.
+    => "docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest" sonrasï¿½nda bu komutu yazï¿½yoruz.  
+    => sonrasï¿½nda "docker images" komutu ile oluï¿½turduï¿½umuz container'ï¿½ gï¿½rebiliriz.
+    => https://localhost:9443/ tarayï¿½cï¿½mï¿½za yazarak gidiyoruz. Dikkat 9443 ï¿½stte yazdï¿½ï¿½ï¿½mï¿½z iï¿½in deï¿½iï¿½iyor bu ï¿½nceden 9000 miï¿½.
     
 
-=> MongoDB'i container olarak ayağa kaldırma
-    => Portainer.io sitesi üzerinden Add Templates ile Mongoyu seçip çift tıklıyoruz.
-    => İsmini girip "Advanced options" ı açarak Port mapping-host kısmına containerdaki değeri yapıştırıyoruz. Mapleme yaptık.
-    => sonrasında oluşturuyoruz.
-    => sonrasında daha önce yüklediğimiz MongoDb Compass i açıyoruz.
-    => "ConnectionString": "mongodb://localhost:27017" appsettings içerisindeki "mongodb://localhost:27017" portunu MongoDb Compass'e yazıyoruz.
+=> MongoDB'i container olarak ayaï¿½a kaldï¿½rma
+    => Portainer.io sitesi ï¿½zerinden Add Templates ile Mongoyu seï¿½ip ï¿½ift tï¿½klï¿½yoruz.
+    => ï¿½smini girip "Advanced options" ï¿½ aï¿½arak Port mapping-host kï¿½smï¿½na containerdaki deï¿½eri yapï¿½ï¿½tï¿½rï¿½yoruz. Mapleme yaptï¿½k.
+    => sonrasï¿½nda oluï¿½turuyoruz.
+    => sonrasï¿½nda daha ï¿½nce yï¿½klediï¿½imiz MongoDb Compass i aï¿½ï¿½yoruz.
+    => "ConnectionString": "mongodb://localhost:27017" appsettings iï¿½erisindeki "mongodb://localhost:27017" portunu MongoDb Compass'e yazï¿½yoruz.
 
 
-
-=> appsettings.json database bağlantıları için aşağıdaki düzenlemeleri tanımladık.
+=> appsettings.json database baï¿½lantï¿½larï¿½ iï¿½in aï¿½aï¿½ï¿½daki dï¿½zenlemeleri tanï¿½mladï¿½k.
   "DatabaseSettings": {
     "CourseCollectionName": "Courses",
     "CategoryCollectionName": "Categories",
     "ConnectionString": "mongodb://localhost:27017"
     "DatabaseName": "CatalogDb"
   },
-  "ConnectionString": "mongodb://localhost:27017" //Dockerize aşamasında bunu ezeceğiz."localhost" kısmına docker compose dosyasındaki servisin ismi gelecek.
+  "ConnectionString": "mongodb://localhost:27017" //Dockerize aï¿½amasï¿½nda bunu ezeceï¿½iz."localhost" kï¿½smï¿½na docker compose dosyasï¿½ndaki servisin ismi gelecek.
 
-=> Bir hata aldım Route u belirtsek bile default olarak get olsa dahi [HttpGet] eklememiz gerekiyor. Yoksa Swagger doğru yüklenmiyor.
+=> Bir hata aldï¿½m Route u belirtsek bile default olarak get olsa dahi [HttpGet] eklememiz gerekiyor. Yoksa Swagger doï¿½ru yï¿½klenmiyor.
 
 -------------------------------------------------------------------------------------------------------------
 
 => IDENTITYSERVER.API
 
-=> IdentityServer küpüthanesini yüklüyoruz. Sırasıyla;
+=> IdentityServer kï¿½pï¿½thanesini yï¿½klï¿½yoruz. Sï¿½rasï¿½yla;
     - https://github.com/IdentityServer/IdentityServer4.Templates adresine gidip
-    - Install with: "dotnet new -i identityserver4.templates" bu kodu powershellde yazarak paketi yüklüyoruz.
-    - Dosyamızda "IdentityServer" adında bir klasör oluşturduk. Dosya yolunu alıp powershellde cd "path" olarak gidiyoruz.
-    - https://github.com/IdentityServer/IdentityServer4.Templates adresinden "dotnet new is4aspid" templete'ini seçtik. 
-    - Powershell içerisine "dotnet new is4aspid --name FreeCourse.IdentityServer" yazıyoruz. Devamında seed no dedik biz kendimiz migration yapacağız data göndermesin.
-    - İşlem bittiğinde klasör içine dosyalar oluşacak. 
-    - Proje solutionımıza gelerek klasör oluşturuyoruz."IdentityServer" olarak. Sağ tık ile existing project diyerek var olan projeyi ekliyoruz.
+    - Install with: "dotnet new -i identityserver4.templates" bu kodu powershellde yazarak paketi yï¿½klï¿½yoruz.
+    - Dosyamï¿½zda "IdentityServer" adï¿½nda bir klasï¿½r oluï¿½turduk. Dosya yolunu alï¿½p powershellde cd "path" olarak gidiyoruz.
+    - https://github.com/IdentityServer/IdentityServer4.Templates adresinden "dotnet new is4aspid" templete'ini seï¿½tik. 
+    - Powershell iï¿½erisine "dotnet new is4aspid --name FreeCourse.IdentityServer" yazï¿½yoruz. Devamï¿½nda seed no dedik biz kendimiz migration yapacaï¿½ï¿½z data gï¿½ndermesin.
+    - ï¿½ï¿½lem bittiï¿½inde klasï¿½r iï¿½ine dosyalar oluï¿½acak. 
+    - Proje solutionï¿½mï¿½za gelerek klasï¿½r oluï¿½turuyoruz."IdentityServer" olarak. Saï¿½ tï¿½k ile existing project diyerek var olan projeyi ekliyoruz.
 
-=> Proje içerisinde migrationı sildik kendimiz yapacağımız için. Sql server paketini yükledik. Startup tarafında SqlServer ı ekledik. Appsettings de database ile ilgili yolumuzu yazdık. Program tarafında hazır gelen seedleri sildik. Ayrıca program.cs tarafında migrationı otomatik olarak database'e yansıtması için "applicationDbContext.Database.Migrate();" komutu ile. Sistemde user yok ise de program ilk ayağa kalktığında 1 tane default ekleme yaptık. Sonrasında migration oluşturduk.
+=> Proje iï¿½erisinde migrationï¿½ sildik kendimiz yapacaï¿½ï¿½mï¿½z iï¿½in. Sql server paketini yï¿½kledik. Startup tarafï¿½nda SqlServer ï¿½ ekledik. Appsettings de database ile ilgili yolumuzu yazdï¿½k. Program tarafï¿½nda hazï¿½r gelen seedleri sildik. Ayrï¿½ca program.cs tarafï¿½nda migrationï¿½ otomatik olarak database'e yansï¿½tmasï¿½ iï¿½in "applicationDbContext.Database.Migrate();" komutu ile. Sistemde user yok ise de program ilk ayaï¿½a kalktï¿½ï¿½ï¿½nda 1 tane default ekleme yaptï¿½k. Sonrasï¿½nda migration oluï¿½turduk.
 
-=> Update-database dedik eğer demeseydikde program ayağa kalktığında otomatik olarak yapacaktı. DBeaver ile kontrol ediyoruz.
+=> Update-database dedik eï¿½er demeseydikde program ayaï¿½a kalktï¿½ï¿½ï¿½nda otomatik olarak yapacaktï¿½. DBeaver ile kontrol ediyoruz.
 
-=> Bir container'ı volume bağlantısı yok ise container kapandığında bilgiler gidecektir. Bunu docker compose tarafına geçtiğimizde mapleyeceğiz.
+=> Bir container'ï¿½ volume baï¿½lantï¿½sï¿½ yok ise container kapandï¿½ï¿½ï¿½nda bilgiler gidecektir. Bunu docker compose tarafï¿½na geï¿½tiï¿½imizde mapleyeceï¿½iz.
 
-=> IdentityServer kütüphanesini halihazırdaki MVC veya API projemize paket olarak yükleyebiliriz. Biz burada IdentityServer firmasının bize sunmuş olduğu hazır bir template 'i kullandık. Bu template sayesinde Endpoint'lerimiz Oarth 2.0 ve OpenID Connect uygun olarak hazır bir şekilde sunulmaktadır.
+=> IdentityServer kï¿½tï¿½phanesini halihazï¿½rdaki MVC veya API projemize paket olarak yï¿½kleyebiliriz. Biz burada IdentityServer firmasï¿½nï¿½n bize sunmuï¿½ olduï¿½u hazï¿½r bir template 'i kullandï¿½k. Bu template sayesinde Endpoint'lerimiz Oarth 2.0 ve OpenID Connect uygun olarak hazï¿½r bir ï¿½ekilde sunulmaktadï¿½r.
 
-=> IdentityServer template içerisinde kullanıcı kayıt olması ile ilgili bir endpoint gelmediği için bunu oluşturuyoruz.
-    Sırasıyla;
-        -Controllers içerisinde UserController oluşturduk.
-        -Kullanıcı kayıt için Dto nesnesi oluşturduk.
+=> IdentityServer template iï¿½erisinde kullanï¿½cï¿½ kayï¿½t olmasï¿½ ile ilgili bir endpoint gelmediï¿½i iï¿½in bunu oluï¿½turuyoruz.
+    Sï¿½rasï¿½yla;
+        -Controllers iï¿½erisinde UserController oluï¿½turduk.
+        -Kullanï¿½cï¿½ kayï¿½t iï¿½in Dto nesnesi oluï¿½turduk.
 
-=> Config dosyasının kodlanması. IdentityServer içinde config classı içerisinde clientlar için düzenlemeleri yaptık.
+=> Config dosyasï¿½nï¿½n kodlanmasï¿½. IdentityServer iï¿½inde config classï¿½ iï¿½erisinde clientlar iï¿½in dï¿½zenlemeleri yaptï¿½k.
 
-=> Catalog.API tarafında Json Web Token ile kimlik doğrulama için ilgili paketi yüklüyoruz.(Jwt Bearer)
+=> Catalog.API tarafï¿½nda Json Web Token ile kimlik doï¿½rulama iï¿½in ilgili paketi yï¿½klï¿½yoruz.(Jwt Bearer)
+
+=> Docker compose ederken VS Code kullanÄ±yoruz. docker eklentisini yÃ¼kledik. 
+  - docker-compose.yml dosyasÄ±nÄ± oluÅŸturduk.
+  - docker-compose.override dosyasÄ±nÄ± oluÅŸturduk.
+  - volume oluÅŸturmaz isek pc'yi kapattÄ±ÄŸÄ±mÄ±zda Ã¶rneÄŸin sql server iÃ§inde kaydettiÄŸimiz bilgiler gider.
+  - docker-compose up komutu ayaÄŸa kaldÄ±rÄ±r
+  - docker-compose down komutu da durdurur
+  - docker file dosyasÄ± oluÅŸturuyoruz.
     
 
 
