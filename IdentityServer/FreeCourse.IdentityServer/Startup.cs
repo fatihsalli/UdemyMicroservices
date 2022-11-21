@@ -61,6 +61,8 @@ namespace FreeCourse.IdentityServer
 
             //IdentityResourceOwnerPasswordValidator classını startupta geçtik. User ile birlikte token almak için istek yapıldığında bu class devreye girecektir.
             builder.AddResourceOwnerValidator<IdentityResourceOwnerPasswordValidator>();
+            //Token exchange için oluşturduk
+            builder.AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
