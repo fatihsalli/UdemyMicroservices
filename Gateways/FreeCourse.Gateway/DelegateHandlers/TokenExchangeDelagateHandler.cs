@@ -41,12 +41,12 @@ namespace FreeCourse.Gateway.DelegateHandlers
                 throw discovery.Exception;
             }
 
-            TokenExchangeTokenRequest tokenExchangeTokenRequest = new()
+            TokenExchangeTokenRequest tokenExchangeTokenRequest = new TokenExchangeTokenRequest()
             { 
                 Address=discovery.TokenEndpoint,
-                ClientId = _configuration["ClientId"],
-                ClientSecret = _configuration["ClientSecret"],
-                GrantType= _configuration["TokenGrantType"],
+                ClientId = "TokenExchangeClient",
+                ClientSecret = "secret",
+                GrantType= "urn:ietf:params:oauth:grant-type:token-exchange",
                 SubjectToken=requestToken,
                 SubjectTokenType= "urn:ietf:params:oauth:token-type:access-token",
                 Scope= "openid discount_fullpermission payment_fullpermission"
@@ -60,6 +60,7 @@ namespace FreeCourse.Gateway.DelegateHandlers
             }
 
             _accessToken=tokenResponse.AccessToken;
+
             return _accessToken;
         }
 

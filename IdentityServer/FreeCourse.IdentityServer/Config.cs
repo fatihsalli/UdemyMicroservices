@@ -96,11 +96,11 @@ namespace FreeCourse.IdentityServer
                 new Client
                 {
                     ClientName="Token Exchange Client",
-                    ClientId="TokenExchangeClient",
+                    ClientId="TokenExhangeClient",
                     ClientSecrets={new Secret("secret".Sha256())},
-                    AllowedGrantTypes=new []{"urn:ietf:params:oauth:grant-type:token-exhange" },
+                    AllowedGrantTypes=new []{ "urn:ietf:params:oauth:grant-type:token-exchange" },
                     //Hangi Apilere istek yapabileceğini belirtiyoruz. Payment ve Discount için token exchang sistemi olacağı için onları yukarıdaki clientdan silip bu clientın scopelarına ekledik. Bir de kullanıcı id aldık=> openid
-                    AllowedScopes={ "discount_fullpermission", "payment_fullpermission", IdentityServerConstants.StandardScopes.OpenId }
+                    AllowedScopes={"discount_fullpermission", "payment_fullpermission", IdentityServerConstants.StandardScopes.OpenId }
                 }
 
             };
