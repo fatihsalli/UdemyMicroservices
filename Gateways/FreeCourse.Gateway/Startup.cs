@@ -21,7 +21,7 @@ namespace FreeCourse.Gateway
         public void ConfigureServices(IServiceCollection services)
         {
             //TokenExchangeDelagateHandler HttpClient belirtiyoruz.
-            services.AddHttpClient<TokenExchangeDelagateHandler>();
+            services.AddHttpClient<TokenExhangeDelegateHandler>();
 
             //Gateway.API JWT token ile koruma altýna aldýk.
             services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme",options=>
@@ -35,7 +35,7 @@ namespace FreeCourse.Gateway
             });
 
             //Ocelot kütüphanesini ekledik. ve Delegate ekledik token exhange için
-            services.AddOcelot().AddDelegatingHandler<TokenExchangeDelagateHandler>();
+            services.AddOcelot().AddDelegatingHandler<TokenExhangeDelegateHandler>();
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)

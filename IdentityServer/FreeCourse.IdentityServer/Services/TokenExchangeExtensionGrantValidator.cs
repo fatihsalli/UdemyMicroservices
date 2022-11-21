@@ -19,7 +19,7 @@ namespace FreeCourse.IdentityServer.Services
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
-            var request=context.Request.Raw.ToString();
+            var requestRaw = context.Request.Raw.ToString();
 
             //Tokenı alıyoruz
             var token = context.Request.Raw.Get("subject_token");
@@ -29,23 +29,25 @@ namespace FreeCourse.IdentityServer.Services
             {
                 context.Result = new GrantValidationResult(IdentityServer4.Models.TokenRequestErrors.InvalidRequest, "token missing");
                 return;
-            } 
+            }
 
-            var tokenValidateResult= await _tokenValidator.ValidateAccessTokenAsync(token);
+            var tokenValidateResult = await _tokenValidator.ValidateAccessTokenAsync(token);
 
             //Tokenın geçerliliğini bilgilerini kontrol ediyoruz.
             if (tokenValidateResult.IsError)
             {
                 context.Result = new GrantValidationResult(IdentityServer4.Models.TokenRequestErrors.InvalidGrant, "token invalid");
+
                 return;
             }
 
             //Bu aşamada token geçerli. Kullanıcıyı buluyoruz.
             var subjectClaim = tokenValidateResult.Claims.FirstOrDefault(c => c.Type == "sub");
 
-            if (subjectClaim==null)
+            if (subjectClaim == null)
             {
                 context.Result = new GrantValidationResult(IdentityServer4.Models.TokenRequestErrors.InvalidGrant, "token must contain sub value");
+
                 return;
             }
 

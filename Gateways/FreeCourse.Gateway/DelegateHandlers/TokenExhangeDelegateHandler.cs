@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 namespace FreeCourse.Gateway.DelegateHandlers
 {
     //Token exchange için oluşturduk. İstek geldiğinde handler ile araya girip token exchange yapacak.
-    public class TokenExchangeDelagateHandler:DelegatingHandler
+    public class TokenExhangeDelegateHandler:DelegatingHandler
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;
+
         private string _accessToken;
 
-        public TokenExchangeDelagateHandler(HttpClient httpClient, IConfiguration configuration)
+        public TokenExhangeDelegateHandler(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _configuration = configuration;
@@ -28,7 +29,7 @@ namespace FreeCourse.Gateway.DelegateHandlers
             }
 
             //Identity model paketinden geliyor. Https ile istek yapmaması için yazdık.
-            var discovery = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            var disco = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
                 Address = _configuration["IdentityServerURL"],
                 //Https ile istek yapmaması için yazdık.
@@ -36,30 +37,30 @@ namespace FreeCourse.Gateway.DelegateHandlers
             });
 
             //Discovery de bir hata var mı diye kontrol ediyoruz.
-            if (discovery.IsError)
+            if (disco.IsError)
             {
-                throw discovery.Exception;
+                throw disco.Exception;
             }
 
             TokenExchangeTokenRequest tokenExchangeTokenRequest = new TokenExchangeTokenRequest()
-            { 
-                Address=discovery.TokenEndpoint,
-                ClientId = "TokenExchangeClient",
-                ClientSecret = "secret",
-                GrantType= "urn:ietf:params:oauth:grant-type:token-exchange",
-                SubjectToken=requestToken,
-                SubjectTokenType= "urn:ietf:params:oauth:token-type:access-token",
-                Scope= "openid discount_fullpermission payment_fullpermission"
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = _configuration["ClientId"],
+                ClientSecret = _configuration["ClientSecret"],
+                GrantType = _configuration["TokenGrantType"],
+                SubjectToken = requestToken,
+                SubjectTokenType = "urn:ietf:params:oauth:token-type:access-token",
+                Scope = "openid discount_fullpermission payment_fullpermission"
             };
 
-            var tokenResponse=await _httpClient.RequestTokenExchangeTokenAsync(tokenExchangeTokenRequest);
+            var tokenResponse = await _httpClient.RequestTokenExchangeTokenAsync(tokenExchangeTokenRequest);
 
             if (tokenResponse.IsError)
             {
                 throw tokenResponse.Exception;
             }
 
-            _accessToken=tokenResponse.AccessToken;
+            _accessToken = tokenResponse.AccessToken;
 
             return _accessToken;
         }
@@ -75,7 +76,5 @@ namespace FreeCourse.Gateway.DelegateHandlers
 
             return await base.SendAsync(request, cancellationToken);
         }
-
-
     }
 }
