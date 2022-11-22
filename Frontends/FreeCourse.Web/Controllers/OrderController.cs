@@ -19,7 +19,7 @@ namespace FreeCourse.Web.Controllers
         public async Task<IActionResult> Checkout()
         {
             var basket = await _basketService.Get();
-            ViewBag.Basket=basket;
+            ViewBag.Basket = basket;
 
             return View(new CheckoutInput());
         }
@@ -48,7 +48,7 @@ namespace FreeCourse.Web.Controllers
 
             //Asenkron İletişim (2.YOL)
             //Fakepayment da id dönmediğimiz için random değer atadık değiştirilebilir.
-            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = new Random().Next(1,1000) });
+            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = new Random().Next(1, 1000) });
         }
 
         public IActionResult SuccessfulCheckout(int orderId)
@@ -57,10 +57,10 @@ namespace FreeCourse.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CheckoutHistory() 
-        { 
+        public async Task<IActionResult> CheckoutHistory()
+        {
             return View(await _orderService.GetOrder());
-                
+
         }
 
 

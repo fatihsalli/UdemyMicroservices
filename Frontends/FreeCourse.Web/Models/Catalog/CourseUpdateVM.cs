@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace FreeCourse.Web.Models.Catalog
 {

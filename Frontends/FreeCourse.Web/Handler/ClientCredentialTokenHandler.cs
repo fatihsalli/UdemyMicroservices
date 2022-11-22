@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FreeCourse.Web.Handler
 {
     //Client ile ilgili olan catalog ve photostock için oluşturduk.
-    public class ClientCredentialTokenHandler:DelegatingHandler
+    public class ClientCredentialTokenHandler : DelegatingHandler
     {
         private readonly IClientCredentialTokenService _clientCredentialTokenService;
         public ClientCredentialTokenHandler(IClientCredentialTokenService clientCredentialTokenService)
@@ -22,9 +22,9 @@ namespace FreeCourse.Web.Handler
             //Requestın headırına ekledik
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await _clientCredentialTokenService.GetToken());
 
-            var response=await base.SendAsync(request, cancellationToken);
+            var response = await base.SendAsync(request, cancellationToken);
 
-            if (response.StatusCode==System.Net.HttpStatusCode.Unauthorized)
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
             {
                 throw new UnAuthorizeException();
             }

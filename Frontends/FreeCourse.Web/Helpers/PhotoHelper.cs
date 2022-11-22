@@ -13,7 +13,7 @@ namespace FreeCourse.Web.Helpers
             _serviceApiSettings = serviceApiSettings.Value;
         }
 
-        public string GetPhotoStockUrl(string photoUrl) 
+        public string GetPhotoStockUrl(string photoUrl)
         {
             return $"{_serviceApiSettings.PhotoStockUri}/photos/{photoUrl}";
         }

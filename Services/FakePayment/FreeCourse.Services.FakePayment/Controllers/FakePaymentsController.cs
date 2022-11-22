@@ -3,7 +3,6 @@ using FreeCourse.Shared.ControllerBases;
 using FreeCourse.Shared.Dtos;
 using FreeCourse.Shared.Messages;
 using MassTransit;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -24,7 +23,7 @@ namespace FreeCourse.Services.FakePayment.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReceivePayment(PaymentDto paymentDto) 
+        public async Task<IActionResult> ReceivePayment(PaymentDto paymentDto)
         {
             //Kuyruk ismiyle birlikte endpointi belirttik.
             var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("queue:create-order-service"));
@@ -43,17 +42,17 @@ namespace FreeCourse.Services.FakePayment.Controllers
             {
                 createOrderMessageCommand.OrderItems.Add(new OrderItem
                 {
-                    PictureUrl= x.PictureUrl,
-                    Price= x.Price,
-                    ProductId= x.ProductId,
-                    ProductName= x.ProductName                    
+                    PictureUrl = x.PictureUrl,
+                    Price = x.Price,
+                    ProductId = x.ProductId,
+                    ProductName = x.ProductName
                 });
             });
-            
+
             //Mesajı gönderiyoruz. Order ayakta olmasa bile mesaj kuyrukta bekleyecek.
             await sendEndpoint.Send<CreateOrderMessageCommand>(createOrderMessageCommand);
 
-            return CreateActionResultInstance(Shared.Dtos.Response<NoContent>.Success(200));        
+            return CreateActionResultInstance(Shared.Dtos.Response<NoContent>.Success(200));
         }
 
 

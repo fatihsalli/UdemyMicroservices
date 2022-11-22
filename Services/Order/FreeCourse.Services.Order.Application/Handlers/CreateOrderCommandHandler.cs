@@ -34,8 +34,8 @@ namespace FreeCourse.Services.Order.Application.Handlers
 
             await _context.SaveChangesAsync();
 
-            return Response<CreatedOrderDto>.Success(new CreatedOrderDto {OrderId=newOrder.Id },200);
-            
+            return Response<CreatedOrderDto>.Success(new CreatedOrderDto { OrderId = newOrder.Id }, 200);
+
         }
     }
 }

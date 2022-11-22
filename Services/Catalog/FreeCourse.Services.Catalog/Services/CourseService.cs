@@ -3,13 +3,13 @@ using FreeCourse.Services.Catalog.Dtos;
 using FreeCourse.Services.Catalog.Models;
 using FreeCourse.Services.Catalog.Settings;
 using FreeCourse.Shared.Dtos;
-using Mass=MassTransit;
+using FreeCourse.Shared.Messages;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FreeCourse.Shared.Messages;
+using Mass = MassTransit;
 
 namespace FreeCourse.Services.Catalog.Services
 {
@@ -20,7 +20,7 @@ namespace FreeCourse.Services.Catalog.Services
         private readonly IMapper _mapper;
         private readonly Mass.IPublishEndpoint _publishEndpoint;
 
-        public CourseService(IMapper mapper, IDatabaseSettings databaseSettings,Mass.IPublishEndpoint publishEndpoint)
+        public CourseService(IMapper mapper, IDatabaseSettings databaseSettings, Mass.IPublishEndpoint publishEndpoint)
         {
             var client = new MongoClient(databaseSettings.ConnectionString);
             var database = client.GetDatabase(databaseSettings.DatabaseName);
@@ -106,7 +106,7 @@ namespace FreeCourse.Services.Catalog.Services
             }
 
             //İşlem başarılı olma durumunda eventi gönderiyoruz."eventual consistency" desing pattern. Event olduğu için kuyruğu burada belirtmemize gerek onu exchange bağlanan order veya basket oluşturacak.
-            await _publishEndpoint.Publish<CourseNameChangedEvent>(new CourseNameChangedEvent { CourseId= courseUpdateDto.Id,UpdatedName= courseUpdateDto.Name});
+            await _publishEndpoint.Publish<CourseNameChangedEvent>(new CourseNameChangedEvent { CourseId = courseUpdateDto.Id, UpdatedName = courseUpdateDto.Name });
 
             return Response<NoContent>.Success(200);
         }

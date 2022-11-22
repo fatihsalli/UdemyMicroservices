@@ -1,17 +1,16 @@
 ﻿using FreeCourse.Web.Handler;
 using FreeCourse.Web.Models;
-using FreeCourse.Web.Services.Interfaces;
 using FreeCourse.Web.Services;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using FreeCourse.Web.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.Extensions.Configuration;
 
 namespace FreeCourse.Web.Extensions
 {
     public static class ServiceExtension
     {
-        public static void AddHttpClientServices(this IServiceCollection services,IConfiguration Configuration)
+        public static void AddHttpClientServices(this IServiceCollection services, IConfiguration Configuration)
         {
             //ServiceApiSettings classına ulaştık.
             var serviceApiSettings = Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();

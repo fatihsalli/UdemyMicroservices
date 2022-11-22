@@ -37,7 +37,7 @@ namespace FreeCourse.Web.Services
             var currentToken = await _clientAccessTokenCache.GetAsync("WebClientToken");
 
             //Var ise direkt dönüyoruz.
-            if (currentToken!=null)
+            if (currentToken != null)
             {
                 return currentToken.AccessToken;
             }
@@ -60,10 +60,10 @@ namespace FreeCourse.Web.Services
             {
                 ClientId = _clientSettings.WebClient.ClientId,
                 ClientSecret = _clientSettings.WebClient.ClientSecret,
-                Address=discovery.TokenEndpoint
+                Address = discovery.TokenEndpoint
             };
 
-            var newToken=await _httpClient.RequestClientCredentialsTokenAsync(clientCredentialTokenRequest);
+            var newToken = await _httpClient.RequestClientCredentialsTokenAsync(clientCredentialTokenRequest);
 
             if (newToken.IsError)
             {

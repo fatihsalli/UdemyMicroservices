@@ -20,9 +20,9 @@ namespace FreeCourse.Web.Models.Basket
         private List<BasketItemVM> _basketItems;
 
         //İndirimi fiyatlara uyguluyoruz.
-        public List<BasketItemVM> BasketItems 
-        { 
-            get 
+        public List<BasketItemVM> BasketItems
+        {
+            get
             {
                 if (HasDiscount)
                 {
@@ -55,14 +55,14 @@ namespace FreeCourse.Web.Models.Basket
 
         public void CancelDiscount()
         {
-            DiscountCode= null;
-            DiscountRate= null;
+            DiscountCode = null;
+            DiscountRate = null;
         }
 
-        public void ApplyDiscount(string code,int rate)
+        public void ApplyDiscount(string code, int rate)
         {
-            DiscountCode= code;
-            DiscountRate= rate;
+            DiscountCode = code;
+            DiscountRate = rate;
         }
 
     }

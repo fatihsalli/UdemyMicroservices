@@ -27,11 +27,13 @@ namespace FreeCourse.Web.Controllers
 
         public async Task<IActionResult> AddBasketItem(string courseId)
         {
-            var course = await _catalogService.GetByCourseIdAsycn(courseId); 
+            var course = await _catalogService.GetByCourseIdAsycn(courseId);
 
-            var basketItemVM=new BasketItemVM
-            { 
-                CourseId=course.Id,CourseName=course.Name,Price=course.Price 
+            var basketItemVM = new BasketItemVM
+            {
+                CourseId = course.Id,
+                CourseName = course.Name,
+                Price = course.Price
             };
 
             await _basketService.AddBasketItem(basketItemVM);
@@ -56,7 +58,7 @@ namespace FreeCourse.Web.Controllers
 
             var discountStatus = await _basketService.ApplyDiscount(discountApplyVM.DiscountCode);
 
-            TempData["discountStatus"]=discountStatus;
+            TempData["discountStatus"] = discountStatus;
 
             return RedirectToAction(nameof(Index));
         }

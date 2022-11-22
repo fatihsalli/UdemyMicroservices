@@ -13,11 +13,11 @@ namespace FreeCourse.Services.Catalog
         {
 
             //Category yok ise category oluþturmak için seed data olarak aþaðýdaki düzenlemeyi yaptýk.
-            var host=CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
-            using (var scope=host.Services.CreateScope())
+            using (var scope = host.Services.CreateScope())
             {
-                var serviceProvider=scope.ServiceProvider;
+                var serviceProvider = scope.ServiceProvider;
 
                 var categoryService = serviceProvider.GetRequiredService<ICategoryService>();
 

@@ -30,7 +30,7 @@ namespace FreeCourse.Web.Controllers
                 return View();
             }
 
-            var response=await _identityService.SignIn(signInInput);
+            var response = await _identityService.SignIn(signInInput);
 
             if (!response.IsSuccessful)
             {
@@ -49,7 +49,7 @@ namespace FreeCourse.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await _identityService.RevokeRefreshToken();
-            return RedirectToAction(nameof(HomeController.Index),"Home");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
 

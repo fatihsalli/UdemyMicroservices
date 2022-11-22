@@ -6,7 +6,7 @@ namespace FreeCourse.Web.Models
     {
         //Sign in için model oluşturduk
         [Required]
-        [Display(Name ="Email Address")]
+        [Display(Name = "Email Address")]
         public string Email { get; set; }
 
         [Required]

@@ -1,5 +1,4 @@
 ﻿using FreeCourse.Shared.Dtos;
-using FreeCourse.Shared.Services;
 using FreeCourse.Web.Models.Basket;
 using FreeCourse.Web.Services.Interfaces;
 using System.Linq;
@@ -25,7 +24,7 @@ namespace FreeCourse.Web.Services
 
             if (basketVM != null)
             {
-                if (!basketVM.BasketItems.Any(x=> x.CourseId==basketItemVM.CourseId))
+                if (!basketVM.BasketItems.Any(x => x.CourseId == basketItemVM.CourseId))
                 {
                     basketVM.BasketItems.Add(basketItemVM);
                 }
@@ -51,9 +50,9 @@ namespace FreeCourse.Web.Services
                 return false;
             }
 
-            var hasDiscount=await _discountService.GetDiscount(discountCode);
+            var hasDiscount = await _discountService.GetDiscount(discountCode);
 
-            if (hasDiscount==null)
+            if (hasDiscount == null)
             {
                 return false;
             }
@@ -68,7 +67,7 @@ namespace FreeCourse.Web.Services
         {
             var basket = await Get();
 
-            if (basket==null || basket.DiscountCode==null)
+            if (basket == null || basket.DiscountCode == null)
             {
                 return false;
             }
@@ -103,7 +102,7 @@ namespace FreeCourse.Web.Services
         {
             var basketVM = await Get();
 
-            if (basketVM==null)
+            if (basketVM == null)
             {
                 return false;
             }
@@ -111,7 +110,7 @@ namespace FreeCourse.Web.Services
 
             if (deleteBasketItem == null) return false;
 
-            var deleteResult=basketVM.BasketItems.Remove(deleteBasketItem);
+            var deleteResult = basketVM.BasketItems.Remove(deleteBasketItem);
 
             if (!deleteResult)
             {
@@ -121,14 +120,14 @@ namespace FreeCourse.Web.Services
             //Sepetteki son ürünü silme durumunda indirimi null'a çekmek için
             if (!basketVM.BasketItems.Any())
             {
-                basketVM.DiscountCode=null;
+                basketVM.DiscountCode = null;
             }
             return await SaveOrUpdate(basketVM);
         }
 
         public async Task<bool> SaveOrUpdate(BasketVM basketVM)
         {
-            var response = await _httpClient.PostAsJsonAsync<BasketVM>("baskets",basketVM);
+            var response = await _httpClient.PostAsJsonAsync<BasketVM>("baskets", basketVM);
 
             return response.IsSuccessStatusCode;
         }

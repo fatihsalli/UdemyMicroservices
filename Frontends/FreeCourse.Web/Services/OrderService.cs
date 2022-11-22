@@ -65,10 +65,10 @@ namespace FreeCourse.Web.Services
                 var orderItem = new OrderItemCreateInput
                 {
                     ProductId = x.CourseId,
-                    Price=x.GetCurrentPrice,
+                    Price = x.GetCurrentPrice,
                     //Catalog servis üzerinden alabiliriz. Önemli olmadığı için böyle bıraktık.
-                    PictureUrl="",
-                    ProductName=x.CourseName
+                    PictureUrl = "",
+                    ProductName = x.CourseName
                 };
                 orderCreateInput.OrderItems.Add(orderItem);
             });
@@ -85,13 +85,13 @@ namespace FreeCourse.Web.Services
             //sepeti boşaltmak için
             await _basketService.Delete();
 
-            return new OrderCreatedVM { OrderId=responseSuccess.Data.OrderId,Error =null, IsSuccessful = true };
+            return new OrderCreatedVM { OrderId = responseSuccess.Data.OrderId, Error = null, IsSuccessful = true };
         }
 
         public async Task<List<OrderVM>> GetOrder()
         {
             var response = await _httpClient.GetFromJsonAsync<Response<List<OrderVM>>>("orders");
-            return response.Data;            
+            return response.Data;
         }
 
         //Asenkron iletişim
@@ -134,7 +134,7 @@ namespace FreeCourse.Web.Services
                 Expiration = checkoutInput.Expiration,
                 CVV = checkoutInput.CVV,
                 TotalPrice = basket.TotalPrice,
-                Order=orderCreateInput
+                Order = orderCreateInput
             };
 
             var responsePayment = await _paymentService.ReceivePayment(payment);
@@ -147,7 +147,7 @@ namespace FreeCourse.Web.Services
             //sepeti boşaltmak için
             await _basketService.Delete();
 
-            return new OrderSuspendVM { IsSuccessful= true};
+            return new OrderSuspendVM { IsSuccessful = true };
         }
     }
 }

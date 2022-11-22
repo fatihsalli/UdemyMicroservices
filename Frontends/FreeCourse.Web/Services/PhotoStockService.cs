@@ -21,25 +21,25 @@ namespace FreeCourse.Web.Services
         public async Task<bool> DeletePhoto(string photoUrl)
         {
             //Path içinde nokta olduğu için bu şekilde gösterdik.
-            var response= await _httpClient.DeleteAsync($"photos?photoUrl={photoUrl}");
+            var response = await _httpClient.DeleteAsync($"photos?photoUrl={photoUrl}");
             return response.IsSuccessStatusCode;
         }
 
         public async Task<PhotoStockVM> UploadPhoto(IFormFile photo)
         {
-            if (photo==null || photo.Length<=0)
+            if (photo == null || photo.Length <= 0)
             {
                 return null;
             }
             // => 05105050adwad0a6f50a6f.jpg
-            var randomFilename=$"{Guid.NewGuid().ToString()}{Path.GetExtension(photo.FileName)}";
+            var randomFilename = $"{Guid.NewGuid().ToString()}{Path.GetExtension(photo.FileName)}";
 
-            using var ms=new MemoryStream();
+            using var ms = new MemoryStream();
             await photo.CopyToAsync(ms);
 
             var multipartContent = new MultipartFormDataContent();
             //photo ismini PhotoStock.Api beklediği için bu ismi verdik. Save metotunda.
-            multipartContent.Add(new ByteArrayContent(ms.ToArray()),"photo",randomFilename);
+            multipartContent.Add(new ByteArrayContent(ms.ToArray()), "photo", randomFilename);
 
             //Base Url startup tarafından gelecek
             var response = await _httpClient.PostAsync("photos", multipartContent);
@@ -49,7 +49,7 @@ namespace FreeCourse.Web.Services
                 return null;
             }
 
-            var responseSuccess= await response.Content.ReadFromJsonAsync<Response<PhotoStockVM>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<PhotoStockVM>>();
 
             return responseSuccess.Data;
         }

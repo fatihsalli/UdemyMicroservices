@@ -26,7 +26,7 @@ namespace FreeCourse.Services.Order.Application.Handlers
         public async Task<Response<List<OrderDto>>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
         {
             //OrderItemsları da dahil ettik.
-            var orders=await _context.Orders.Include(x=> x.OrderItems).Where(x=> x.BuyerId==request.UserId).ToListAsync();
+            var orders = await _context.Orders.Include(x => x.OrderItems).Where(x => x.BuyerId == request.UserId).ToListAsync();
 
             //Maplemeden önce dolu mu boş mu diye kontrol ediyoruz. Yoksa Automapper kullanırken hata alırız.
             if (!orders.Any())
@@ -34,7 +34,7 @@ namespace FreeCourse.Services.Order.Application.Handlers
                 return Response<List<OrderDto>>.Success(new List<OrderDto>(), 200);
             }
 
-            var orderDtos=ObjectMapper.Mapper.Map<List<OrderDto>>(orders);
+            var orderDtos = ObjectMapper.Mapper.Map<List<OrderDto>>(orders);
 
             return Response<List<OrderDto>>.Success(orderDtos, 200);
         }

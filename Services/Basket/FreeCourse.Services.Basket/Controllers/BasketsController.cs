@@ -1,7 +1,6 @@
 ﻿using FreeCourse.Services.Basket.Dtos;
 using FreeCourse.Services.Basket.Services;
 using FreeCourse.Shared.ControllerBases;
-using FreeCourse.Shared.Dtos;
 using FreeCourse.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

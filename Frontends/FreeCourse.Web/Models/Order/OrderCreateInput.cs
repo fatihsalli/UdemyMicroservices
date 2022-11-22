@@ -6,7 +6,7 @@ namespace FreeCourse.Web.Models.Order
     {
         public OrderCreateInput()
         {
-            OrderItems=new List<OrderItemCreateInput>();
+            OrderItems = new List<OrderItemCreateInput>();
         }
 
         //Order microservisinin siparişi kaydetmek için istediği modeli oluşturduk."CreateOrderCommand"

@@ -1,6 +1,5 @@
 ﻿using FreeCourse.Shared.Dtos;
 using FreeCourse.Web.Helpers;
-using FreeCourse.Web.Models;
 using FreeCourse.Web.Models.Catalog;
 using FreeCourse.Web.Services.Interfaces;
 using System.Collections.Generic;
@@ -17,10 +16,10 @@ namespace FreeCourse.Web.Services
         private readonly IPhotoStockService _photoStockService;
         private readonly PhotoHelper _photoHelper;
 
-        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService,PhotoHelper photoHelper)
+        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService, PhotoHelper photoHelper)
         {
             _httpClient = httpClient;
-            _photoStockService = photoStockService; 
+            _photoStockService = photoStockService;
             _photoHelper = photoHelper;
         }
 
@@ -28,12 +27,12 @@ namespace FreeCourse.Web.Services
         {
             var resultPhotoService = await _photoStockService.UploadPhoto(courseCreateVM.PhotoFormFile);
 
-            if (resultPhotoService!=null)
+            if (resultPhotoService != null)
             {
                 courseCreateVM.Picture = resultPhotoService.Url;
             }
 
-            var response = await _httpClient.PostAsJsonAsync<CourseCreateVM>("courses",courseCreateVM);
+            var response = await _httpClient.PostAsJsonAsync<CourseCreateVM>("courses", courseCreateVM);
             return response.IsSuccessStatusCode;
         }
 
@@ -68,7 +67,7 @@ namespace FreeCourse.Web.Services
                 return null;
             }
 
-            var responseSuccess=await response.Content.ReadFromJsonAsync<Response<List<CourseVM>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CourseVM>>>();
 
             //Fotoğrafları Url olarak ekliyoruz. PhotoStockdan istek yapacak şekilde.
             responseSuccess.Data.ForEach(x =>

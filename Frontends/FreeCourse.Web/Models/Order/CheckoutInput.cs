@@ -4,7 +4,7 @@ namespace FreeCourse.Web.Models.Order
 {
     public class CheckoutInput
     {
-        [Display(Name ="Province")]
+        [Display(Name = "Province")]
         public string Province { get; set; }
 
         [Display(Name = "District")]

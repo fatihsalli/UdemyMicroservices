@@ -49,17 +49,17 @@ namespace FreeCourse.Web.Services
             }
 
             //Cookie den refresh tokenı alıyoruz. //new AuthenticationToken{Name=OpenIdConnectParameterNames.RefreshToken,Value=token.RefreshToken}, kaydederken bu isimle kaydettiğimiz için yine aynı isimle çağırıyoruz.
-            var refreshToken =await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
 
             RefreshTokenRequest refreshTokenRequest = new()
-            { 
-                ClientId=_clientSettings.WebClientForUser.ClientId,
-                ClientSecret=_clientSettings.WebClientForUser.ClientSecret,
-                RefreshToken= refreshToken,
-                Address= discovery.TokenEndpoint
+            {
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                RefreshToken = refreshToken,
+                Address = discovery.TokenEndpoint
             };
 
-            var token=await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
+            var token = await _httpClient.RequestRefreshTokenAsync(refreshTokenRequest);
 
             if (token.IsError)
             {
@@ -68,7 +68,7 @@ namespace FreeCourse.Web.Services
             }
 
             //OpenIdConnect kütüphanesini yükledik. Access token,refresh token ve süreyi tuttuk.
-            var authenticationTokens=new List<AuthenticationToken> {
+            var authenticationTokens = new List<AuthenticationToken> {
                 new AuthenticationToken{Name=OpenIdConnectParameterNames.AccessToken,Value=token.AccessToken},
                 new AuthenticationToken{Name=OpenIdConnectParameterNames.RefreshToken,Value=token.RefreshToken},
                 new AuthenticationToken{Name=OpenIdConnectParameterNames.ExpiresIn,Value=DateTime.Now.AddSeconds(token.ExpiresIn).ToString("o",CultureInfo.InvariantCulture)}
@@ -82,7 +82,7 @@ namespace FreeCourse.Web.Services
             //Var olanı cookieden aldığı bilgilerle dolduracak.
             properties.StoreTokens(authenticationTokens);
 
-            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,authenticationResult.Principal,properties);
+            await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationResult.Principal, properties);
 
             return token;
         }
@@ -108,11 +108,11 @@ namespace FreeCourse.Web.Services
 
             TokenRevocationRequest tokenRevocationRequest = new TokenRevocationRequest
             {
-                ClientId=_clientSettings.WebClientForUser.ClientId,
-                ClientSecret=_clientSettings.WebClientForUser.ClientSecret,
-                Address=discovery.RevocationEndpoint,
-                Token=refreshToken,
-                TokenTypeHint="refresh token"
+                ClientId = _clientSettings.WebClientForUser.ClientId,
+                ClientSecret = _clientSettings.WebClientForUser.ClientSecret,
+                Address = discovery.RevocationEndpoint,
+                Token = refreshToken,
+                TokenTypeHint = "refresh token"
             };
 
             await _httpClient.RevokeTokenAsync(tokenRevocationRequest);

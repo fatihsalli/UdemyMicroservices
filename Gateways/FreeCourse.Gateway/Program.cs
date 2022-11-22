@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FreeCourse.Gateway
 {
@@ -18,10 +13,11 @@ namespace FreeCourse.Gateway
 
         //"ConfigureAppConfiguration((hostingContext,config)=> {})" tanýmladýk.
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((hostingContext,config)=> {
+            Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((hostingContext, config) =>
+            {
                 //Burada ekleme yapýyoruz. Docker veya local hostta ayaða kalkma durumuna göre "development" ya da "production" olarak tamamlayacak hostingContext'den.
                 config.AddJsonFile($"configuration.{hostingContext.HostingEnvironment.EnvironmentName.ToLower()}.json").AddEnvironmentVariables();
-                        
+
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

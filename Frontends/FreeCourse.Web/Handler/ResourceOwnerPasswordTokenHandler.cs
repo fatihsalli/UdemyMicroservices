@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Handler
 {
-    public class ResourceOwnerPasswordTokenHandler:DelegatingHandler
+    public class ResourceOwnerPasswordTokenHandler : DelegatingHandler
     {
         private readonly IIdentityService _identityService;
         private readonly IHttpContextAccessor _httpContextAccessor;

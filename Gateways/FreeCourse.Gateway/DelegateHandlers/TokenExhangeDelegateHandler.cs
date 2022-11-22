@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FreeCourse.Gateway.DelegateHandlers
 {
     //Token exchange için oluşturduk. İstek geldiğinde handler ile araya girip token exchange yapacak.
-    public class TokenExhangeDelegateHandler:DelegatingHandler
+    public class TokenExhangeDelegateHandler : DelegatingHandler
     {
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _configuration;

@@ -4,10 +4,7 @@ using FreeCourse.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Web.Controllers
@@ -17,7 +14,7 @@ namespace FreeCourse.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICatalogService _catalogService;
 
-        public HomeController(ILogger<HomeController> logger,ICatalogService catalogService)
+        public HomeController(ILogger<HomeController> logger, ICatalogService catalogService)
         {
             _logger = logger;
             _catalogService = catalogService;
@@ -25,7 +22,7 @@ namespace FreeCourse.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var courses=await _catalogService.GetAllCourseAsync();
+            var courses = await _catalogService.GetAllCourseAsync();
             return View(courses);
         }
 
@@ -42,10 +39,10 @@ namespace FreeCourse.Web.Controllers
         {
             var errorFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            if (errorFeature != null&& errorFeature.Error is UnAuthorizeException) 
-            { 
+            if (errorFeature != null && errorFeature.Error is UnAuthorizeException)
+            {
                 //Eldeki cookie silinsinki kullanıcı tekrar login ekranına yönlendirilsin.
-                return RedirectToAction(nameof(AuthController.Logout),"Auth");            
+                return RedirectToAction(nameof(AuthController.Logout), "Auth");
             }
 
             return View(new ErrorVM { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

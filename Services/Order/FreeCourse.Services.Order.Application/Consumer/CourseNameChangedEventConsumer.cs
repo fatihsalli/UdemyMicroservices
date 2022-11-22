@@ -2,10 +2,7 @@
 using FreeCourse.Shared.Messages;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Order.Application.Consumer

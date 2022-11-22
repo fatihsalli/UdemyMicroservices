@@ -24,7 +24,7 @@ namespace FreeCourse.Gateway
             services.AddHttpClient<TokenExhangeDelegateHandler>();
 
             //Gateway.API JWT token ile koruma altýna aldýk.
-            services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme",options=>
+            services.AddAuthentication().AddJwtBearer("GatewayAuthenticationScheme", options =>
             {
                 //Tokený kimin daðýttýðý bilgisini veriyoruz.
                 options.Authority = Configuration["IdentityServerURL"];

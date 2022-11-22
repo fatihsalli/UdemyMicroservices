@@ -58,21 +58,21 @@ namespace FreeCourse.Web
             {
                 opt.LoginPath = "/Auth/SignIn";
                 //Refresh token 60 gün olduðu için burada da 60 gün verdik.
-                opt.ExpireTimeSpan=TimeSpan.FromDays(60);
+                opt.ExpireTimeSpan = TimeSpan.FromDays(60);
                 //60 gün içinde giriþ yaptýðýnda süre uzasýn mý=> true dedik
                 opt.SlidingExpiration = true;
                 opt.Cookie.Name = "udemywebcookie";
             });
 
             //Fluent Validation ekledik. "CourseCreateVMValidator" bulunduðu klasördeki tüm assemblyleri tarayarak tamamýný bulacaktýr.
-            services.AddControllersWithViews().AddFluentValidation(fv=> fv.RegisterValidatorsFromAssemblyContaining<CourseCreateVMValidator>());
+            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CourseCreateVMValidator>());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             else
             {

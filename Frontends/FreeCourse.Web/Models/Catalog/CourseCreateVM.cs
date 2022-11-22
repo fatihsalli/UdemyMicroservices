@@ -5,7 +5,7 @@ namespace FreeCourse.Web.Models.Catalog
 {
     public class CourseCreateVM
     {
-        [Display(Name= "Course Name")]
+        [Display(Name = "Course Name")]
         public string Name { get; set; }
 
         [Display(Name = "Price")]

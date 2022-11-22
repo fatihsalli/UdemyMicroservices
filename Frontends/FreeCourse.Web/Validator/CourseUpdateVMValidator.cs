@@ -3,7 +3,7 @@ using FreeCourse.Web.Models.Catalog;
 
 namespace FreeCourse.Web.Validator
 {
-    public class CourseUpdateVMValidator:AbstractValidator<CourseUpdateVM>
+    public class CourseUpdateVMValidator : AbstractValidator<CourseUpdateVM>
     {
         public CourseUpdateVMValidator()
         {

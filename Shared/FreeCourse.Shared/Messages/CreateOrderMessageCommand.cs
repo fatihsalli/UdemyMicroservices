@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeCourse.Shared.Messages
 {
@@ -11,7 +8,7 @@ namespace FreeCourse.Shared.Messages
     {
         public CreateOrderMessageCommand()
         {
-            OrderItems= new List<OrderItem>();
+            OrderItems = new List<OrderItem>();
         }
 
         public string BuyerId { get; set; }

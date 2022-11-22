@@ -14,7 +14,7 @@ namespace FreeCourse.Web.Controllers
         private readonly ICatalogService _catalogService;
         private readonly ISharedIdentityService _sharedIdentityService;
 
-        public CourseController(ICatalogService catalogService,ISharedIdentityService sharedIdentityService)
+        public CourseController(ICatalogService catalogService, ISharedIdentityService sharedIdentityService)
         {
             _catalogService = catalogService;
             _sharedIdentityService = sharedIdentityService;
@@ -29,7 +29,7 @@ namespace FreeCourse.Web.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var categories=await _catalogService.GetAllCategoryAsync();
+            var categories = await _catalogService.GetAllCategoryAsync();
 
             //Kullanıcı seçenek üzerinden ekleyebilmesi için
             ViewBag.CategoryList = new SelectList(categories, "Id", "Name");
@@ -60,7 +60,7 @@ namespace FreeCourse.Web.Controllers
         {
             var course = await _catalogService.GetByCourseIdAsycn(id);
 
-            if (course==null)
+            if (course == null)
             {
                 //to do mesaj gösterilebilir
                 return RedirectToAction(nameof(Index));
