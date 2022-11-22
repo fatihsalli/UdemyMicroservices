@@ -49,6 +49,11 @@ services:
     build:
       context: .
       dockerfile: Gateways/FreeCourse.Gateway/Dockerfile
+  aspnetcoremvc.web:
+    image: aspnetcoremvc.web_image
+    build:
+      context: .
+      dockerfile: Frontends/FreeCourse.Web/Dockerfile
   identityserver.api:
     image: identityserver_api_image
     build:

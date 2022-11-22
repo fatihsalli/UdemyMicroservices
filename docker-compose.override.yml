@@ -86,7 +86,7 @@ services:
     container_name: discount.api
     environment: 
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityServerURL=http://identityserver.api:5001
+      - IdentityServerURL=http://identityserver.api
       - "ConnectionStrings:PostreSql=User ID=admin;Password=Password12*;Server=discountdb;Port=5432;Database=discountdb;Integrated Security=true;Pooling=true;"
     ports:
       - "5014:80"
@@ -107,7 +107,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityServerURL=http://identityserver.api
       - RabbitMQUrl=rabbitmq
-      - "ConnectionStrings:DefaultConnection=Server=orderdb,1444;Database=OrderDb;User=sa; Password=Password12*"
+      - "ConnectionStrings:DefaultConnection=Server=orderdb,1433;Database=OrderDb;User=sa; Password=Password12*"
     ports:
       - "5015:80"
     depends_on:
@@ -119,6 +119,23 @@ services:
       - IdentityServerURL=http://identityserver.api
     ports:
       - "5000:80"
+  aspnetcoremvc.web:
+    container_name: aspnetcoremvc.web
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ServiceApiSettings:IdentityBaseUri=http://identityserver.api
+      - ServiceApiSettings:GatewayBaseUri=http://gateway.api
+    ports:
+      - "5010:80"
+    depends_on:
+      - gateway.api
+      - identityserver.api
+      - catalog.api
+      - basket.api
+      - discount.api
+      - order.api
+      - photostock.api
+      - fakepayment.api
   identityserver.api:
     container_name: identityserver.api
     restart: on-failure

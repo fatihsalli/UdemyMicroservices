@@ -119,6 +119,9 @@ Udemy MicroServices Course
 
 => IdentityServer da hazır datamızı seed ederken o an Sql servera bağlanamayabiliyor. Çünkü Identitydb henüz ayakta olmadığı için bunun önüne geçmek için - "restart: on-failure özelliği ekledik."
 
+=> Photostock mvc tarafında localhost kalmalı çünkü 5012 üzerinden çekeceğiz.
+
+=> Önemli not docker compose yaptıktan sonra sql servera docker tarafından bağlandığımız için portuna 1444 değil 1433 yazıyoruz. Çünkü artık docker tarafında buradan ayağa kalkıyor.1444 yazarsak hata alırız.
 
 
 
