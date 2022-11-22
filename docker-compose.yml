@@ -19,6 +19,16 @@ services:
     build:
       context: .
       dockerfile: Services/Catalog/FreeCourse.Services.Catalog/Dockerfile
+  basket.api:
+    image: basket_api_image
+    build:
+      context: .
+      dockerfile: Services/Basket/FreeCourse.Services.Basket/Dockerfile
+  photostock.api:
+    image: photostock_api_image
+    build:
+      context: .
+      dockerfile: Services/PhotoStock/FreeCourse.Services.PhotoStock/Dockerfile
   identityserver.api:
     image: identityserver_api_image
     build:
