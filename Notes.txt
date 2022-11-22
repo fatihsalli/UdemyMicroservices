@@ -112,7 +112,12 @@ Udemy MicroServices Course
   - docker-compose up komutu ayağa kaldırır
   - docker-compose down komutu da durdurur
   - docker file dosyası oluşturuyoruz.
-    
+
+=> Docker compose ederken Gateway için production içerisinde kodlarımızı yazıyoruz.
+  -ASPNETCORE_ENVIRONMENT=Production bu önemli development değil de productionı alması için
+=> Docker içerisinde hepsi 80 portundan ayağa kalkar biz mapliyoruz hangi portta çalıştırıyor isek.
+
+=> IdentityServer da hazır datamızı seed ederken o an Sql servera bağlanamayabiliyor. Çünkü Identitydb henüz ayakta olmadığı için bunun önüne geçmek için - "restart: on-failure özelliği ekledik."
 
 
 

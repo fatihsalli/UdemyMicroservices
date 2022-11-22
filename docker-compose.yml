@@ -44,6 +44,11 @@ services:
     build:
       context: .
       dockerfile: Services/Order/FreeCourse.Services.Order.API/Dockerfile
+  gateway.api:
+    image: gateway_api_image
+    build:
+      context: .
+      dockerfile: Gateways/FreeCourse.Gateway/Dockerfile
   identityserver.api:
     image: identityserver_api_image
     build:
